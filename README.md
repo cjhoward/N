@@ -1,4 +1,4 @@
-# (&#x2115;)
+# ![(**N**)](./figures/big-n.svg)
 
 (**N**) is an esoteric, primitive recursive programming language which operates on finite sequences of natural numbers.
 
