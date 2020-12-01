@@ -407,6 +407,10 @@ The following tables list the fewest possible single-element operations for vari
 n <input file> [options] [first element] [second element] ... [nth element]
 ```
 
+#### Options:
+
+* `-b`, `--binary`: Write output sequence as series of bytes.
+
 ### bin2n
 
 *bin2n* is a tool which can convert any binary file into an ![(**N**)](figures/n.svg) program which, when executed, will reproduce the exact sequence of bytes which made up the binary file. The usage of *bin2n* is as follows:
