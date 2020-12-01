@@ -7,12 +7,40 @@
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   sodipodi:docname="n.svg"
    version="1.1"
    width="18.445562pt"
    height="12.297147pt"
    viewBox="-52.07469 -69.509329 18.445563 12.297147"
    readme2tex:offset="2.4906600000000054"
    id="svg15">
+  <sodipodi:namedview
+     fit-margin-bottom="0"
+     fit-margin-right="0"
+     fit-margin-left="0"
+     fit-margin-top="0"
+     inkscape:current-layer="svg15"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-9"
+     inkscape:window-x="-9"
+     inkscape:cy="8.198103"
+     inkscape:cx="10.981979"
+     inkscape:zoom="8"
+     showgrid="false"
+     id="namedview13"
+     inkscape:window-height="1001"
+     inkscape:window-width="1920"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10"
+     borderopacity="1"
+     bordercolor="#666666"
+     pagecolor="#ffffff" />
   <metadata
      id="metadata19">
     <rdf:RDF>
@@ -52,6 +80,7 @@
        width="100%"
        height="100%" />
     <use
+       transform="translate(0,0.82689893)"
        x="-48.200317"
        y="-62.03735"
        xlink:href="#g0-78"

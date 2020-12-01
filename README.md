@@ -1,6 +1,6 @@
 # ![(**N**)](figures/big-n.svg)
 
-![(**N**)](figures/n.svg) is an esoteric, primitive recursive programming language which operates on finite sequences of natural numbers.
+![(**N**)](figures/n.svg) is a primitive recursive programming language which operates on finite sequences of natural numbers.
 
 ## Table of Contents
 
