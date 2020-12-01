@@ -9,6 +9,7 @@
 3. [Examples](#examples)
 4. [Algorithms](#algorithms)
 5. [Constants](#constants)
+5. [Tools](#tools)
 6. [License](#license)
 
 ## Programs
