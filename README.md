@@ -34,7 +34,7 @@ There are ten operators in ![(**N**)](figures/n.svg), listed below:
 |   `#`    | Cardinality      | Set the element value to the sequence length.                 | `*ptr = tail - head + 1;`      |
 |   `+`    | Successor        | Increment the element value.                                  | `++*ptr;`                      |
 |   `-`    | Predecessor      | Decrement the element value if non-zero.                      | `*ptr -= !!*ptr;`              |
-|   `[`    | Start loop       | Repeat the code in the loop *n* times (bounded).              | `for (int i = *ptr; i; --i) {` |
+|   `[`    | Start loop       | Repeat the code in the loop *n* times (bounded).              | `for (int j = *ptr; j; --j) {` |
 |   `]`    | End loop         | Marks the end of a bounded loop.                              | `}`                            |
 |   `(`    | Left closure     | Remove all elements to the left.                              | `head = ptr;`                  |
 |   `)`    | Right closure    | Remove all elements to the right.                             | `tail = ptr;`                  |
@@ -390,6 +390,14 @@ The following tables list the fewest possible single-element operations for vari
 </details>
 
 ## Tools
+
+The tools provided in this repository include an ![(**N**)](figures/n.svg) interpreter and a binary to ![(**N**)](figures/n.svg) converter. The provided tools are written in C, and can be built with CMake using the following commands:
+
+```.sh
+cd build
+cmake .. -G <generator-name> -DCMAKE_BUILD_Type=[Release, Debug] 
+cmake --build .
+```
 
 ### nterpreter
 
