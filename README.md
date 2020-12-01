@@ -2,9 +2,18 @@
 
 (**N**) is an esoteric, primitive recursive programming language which operates on finite sequences of natural numbers.
 
+## Table of Contents
+
+1. [Programs](#programs)
+2. [Syntax](#syntax)
+3. [Examples](#examples)
+4. [Algorithms](#algorithms)
+5. [Constants](#constants)
+6. [License](#license)
+
 ## Programs
 
-A program transforms a sequence of natural numbers into a new sequence of natural numbers. The only to input to a program is its initial sequence. If no input is given, the initial sequence will be the zero singleton, (0).
+A program transforms a sequence of natural numbers. The only input to a program is its initial sequence. If no input is given, the initial sequence will be the zero singleton, (0).
 
 The only control flow structure in (**N**) is a bounded loop, meaning that all programs are *provably terminating*.
 
@@ -45,34 +54,7 @@ The comment delimeter is represented by a semicolon, `;`. All characters followi
 
 Signed numbers cannot be represented directly, but the *Church encoding* approach could be taken, wherein an integer is represented by a pair of natural numbers, the integer value being the difference between the two numbers. With this approach, the natural sequence (3, 7, 12, 10) could be interpreted as an integer sequence (-4, 2).
 
-## Algorithms
-
-### Common Sequences
-
-| Name          | Input  | Output                  | Sequence                         |
-|:--------------|:-------|:------------------------|:---------------------------------|
-| x = 0         | (x)    | (0)                     | `[-]`                            |
-| x = 1         | (x)    | (1)                     | `[-]+`                           |
-| x = !x        | (x)    | (~x, ~x)                | `>[-]+<[->-<]>[<+>]<`            |
-| x = !!x       | (x)    | (~~x)                   | `[[-]+]`                         |
-| x *= x        | (x)    | (x*x, x)                | `>[-]<[>+<-]>[[<+>]]<`           |
-| x = y         | (x, y) | (y, y)                  | `[-]>[<+>]<`                     |
-| x = !y        | (x, y) | (~y, y)                 | `[-]+>[<[-]>]<`                  |
-| x += y        | (x, y) | (x+y, y)                | `>[<+>]<`                        |
-| x -= y        | (x, y) | (x-y, y)                | `>[<->]<`                        |
-| x *= y        | (x, y) | (x*y, y, x)             | `>>[-]<<[>>+<<-]>>[<[<+>]>-]<<`  |
-| y += x        | (x, y) | (x, y+x)                | `[>+<]<`                         |
-| y -= x        | (x, y) | (x, y-x)                | `[>-<]<`                         |
-| y = x * x     | (x)    | (x, x*x)                | `>[-]<[[>+<]]`                   |
-| z = x * y     | (x, y) | (x, y, x*y)             | `>>[-]<<[>[>+<]<]`               |
-| swap(x, y)    | (x, y) | (y, x, y)               | `>>[-]<<[>>+<<-]>[<+>-]>[<+>]<<` |
-| zero          | (x)    | (0, ..., 0), i=i+x      | `[[-]>[-]]`                      |
-| index         | (x)    | (0, ..., i), i=i+x      | `[[-]<[>+<]>+>]`                 |
-| goto head     | ()     | i=0                     | `i[<]`                           |
-| goto tail     | ()     | i=#-1                   | `#-[>]`                          |
-| jump left     | (x)    | (x, #-x), i=x           | `>i<[>-<]>[<]`                   |
-| jump right    | (x)    | (x-i, i), i=x           | `>i-[<->]<[>]`                   |
-| index n cells | (x)    | (i, ..., i+x-1), i+=x-1 | `-[i>]i`                         |
+## Examples
 
 ### Hello, World! (Naïve)
 
@@ -126,9 +108,36 @@ Compact:
 ()>+<[[>[>+<]<]>[-]>[<+>-]<<-]>()
 ```
 
+## Algorithms
+
+| Name          | Input  | Output                  | Operations                       |
+|:--------------|:-------|:------------------------|:---------------------------------|
+| x = 0         | (x)    | (0)                     | `[-]`                            |
+| x = 1         | (x)    | (1)                     | `[-]+`                           |
+| x = !x        | (x)    | (~x, ~x)                | `>[-]+<[->-<]>[<+>]<`            |
+| x = !!x       | (x)    | (~~x)                   | `[[-]+]`                         |
+| x *= x        | (x)    | (x*x, x)                | `>[-]<[>+<-]>[[<+>]]<`           |
+| x = y         | (x, y) | (y, y)                  | `[-]>[<+>]<`                     |
+| x = !y        | (x, y) | (~y, y)                 | `[-]+>[<[-]>]<`                  |
+| x += y        | (x, y) | (x+y, y)                | `>[<+>]<`                        |
+| x -= y        | (x, y) | (x-y, y)                | `>[<->]<`                        |
+| x *= y        | (x, y) | (x*y, y, x)             | `>>[-]<<[>>+<<-]>>[<[<+>]>-]<<`  |
+| y += x        | (x, y) | (x, y+x)                | `[>+<]<`                         |
+| y -= x        | (x, y) | (x, y-x)                | `[>-<]<`                         |
+| y = x * x     | (x)    | (x, x*x)                | `>[-]<[[>+<]]`                   |
+| z = x * y     | (x, y) | (x, y, x*y)             | `>>[-]<<[>[>+<]<]`               |
+| swap(x, y)    | (x, y) | (y, x, y)               | `>>[-]<<[>>+<<-]>[<+>-]>[<+>]<<` |
+| zero          | (x)    | (0, ..., 0), i=i+x      | `[[-]>[-]]`                      |
+| index         | (x)    | (0, ..., i), i=i+x      | `[[-]<[>+<]>+>]`                 |
+| goto head     | ()     | i=0                     | `i[<]`                           |
+| goto tail     | ()     | i=#-1                   | `#-[>]`                          |
+| jump left     | (x)    | (x, #-x), i=x           | `>i<[>-<]>[<]`                   |
+| jump right    | (x)    | (x-i, i), i=x           | `>i-[<->]<[>]`                   |
+| index n cells | (x)    | (i, ..., i+x-1), i+=x-1 | `-[i>]i`                         |
+
 ## Constants
 
-The following tables list the shortest possible single-element operations for various numbers:
+The following tables list the fewest possible single-element operations for various numbers:
 
 <details>
 <summary>8-bit (0, 1, 2, 3, ..., 255)</summary>
@@ -391,6 +400,8 @@ The following tables list the shortest possible single-element operations for va
 | 253 | 0xFD | `+++++[+[+]+]`     |     12 |
 | 254 | 0xFE | `+++++[+[+]+]+`    |     13 |
 | 255 | 0xFF | `+++[+[+++]-]`     |     12 |
+
+## 
 
 </details>
 
