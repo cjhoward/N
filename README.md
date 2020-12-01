@@ -399,11 +399,17 @@ The following tables list the fewest possible single-element operations for vari
 
 ## Tools
 
+### nterpreter
+
+*nterpreter* is an ![(**N**)](figures/n.svg) interpreter. The usage of *nterpreter* is as follows:
+
+```
+n <input file> [options] [first element] [second element] ... [nth element]
+```
+
 ### bin2n
 
-*bin2n* is a tool which can convert any binary file into an ![(**N**)](figures/n.svg) program which, when executed, will reproduce the exact sequence of bytes from the binary file.
-
-The usage of *bin2n* is as follows:
+*bin2n* is a tool which can convert any binary file into an ![(**N**)](figures/n.svg) program which, when executed, will reproduce the exact sequence of bytes which made up the binary file. The usage of *bin2n* is as follows:
 
 ```
 bin2n <input file> [output file]
@@ -411,4 +417,4 @@ bin2n <input file> [output file]
 
 ## License
 
-Copyright © 2020 Christopher J. Howard. This text is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/). ![(**N**)](figures/n.svg) interpreter source code is licensed under the [GNU General Public License, version 3](./LICENSE.md).
+Copyright © 2020 Christopher J. Howard. This text is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/). nterpreter and bin2n source codes are licensed under the [GNU General Public License, version 3](./LICENSE.md).
