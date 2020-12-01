@@ -1,6 +1,6 @@
-# ![(**N**)](./figures/big-n.svg)
+# ![(**N**)](figures/big-n.svg)
 
-(**N**) is an esoteric, primitive recursive programming language which operates on finite sequences of natural numbers.
+![(**N**)](figures/n.svg) is an esoteric, primitive recursive programming language which operates on finite sequences of natural numbers.
 
 ## Table of Contents
 
@@ -16,15 +16,15 @@
 
 A program transforms a sequence of natural numbers. The only input to a program is its initial sequence. If no input is given, the initial sequence will be the zero singleton, (0).
 
-The only control flow structure in (**N**) is a bounded loop, meaning that all programs are *provably terminating*.
+The only control flow structure in ![(**N**)](figures/n.svg) is a bounded loop, meaning that all programs are *provably terminating*.
 
 ## Syntax
 
-There are no syntax errors in (**N**); the syntax of (**N**) was designed such that any permutation of operators represents a valid program. Any characters other than operators and comment delimeters are ignored.
+There are no syntax errors in ![(**N**)](figures/n.svg); the syntax of ![(**N**)](figures/n.svg) was designed such that any permutation of operators represents a valid program. Any characters other than operators and comment delimeters are ignored.
 
 ### Operators
 
-There are ten operators in (**N**), listed below:
+There are ten operators in ![(**N**)](figures/n.svg), listed below:
 
 | Operator | Name             | Description                                                   | C equivalent                   |
 |:--------:|:-----------------|:--------------------------------------------------------------|:-------------------------------|
@@ -50,10 +50,6 @@ The comment delimeter is represented by a semicolon, `;`. All characters followi
 >++++[[+]+]- ; comment
 >+++[-[++]]- ; example
 ```
-
-## Signed Numbers
-
-Signed numbers cannot be represented directly, but the *Church encoding* approach could be taken, wherein an integer is represented by a pair of natural numbers, the integer value being the difference between the two numbers. With this approach, the natural sequence (3, 7, 12, 10) could be interpreted as an integer sequence (-4, 2).
 
 ## Examples
 
@@ -405,7 +401,7 @@ The following tables list the fewest possible single-element operations for vari
 
 ### bin2n
 
-*bin2n* is a tool which can convert any binary file into an (**N**) program which, when executed, will reproduce the exact sequence of bytes from the binary file.
+*bin2n* is a tool which can convert any binary file into an ![(**N**)](figures/n.svg) program which, when executed, will reproduce the exact sequence of bytes from the binary file.
 
 The usage of *bin2n* is as follows:
 
@@ -415,4 +411,4 @@ bin2n <input file> [output file]
 
 ## License
 
-Copyright © 2020 Christopher J. Howard. This text is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/). (**N**) interpreter source code is licensed under the [GNU General Public License, version 3](./LICENSE.md).
+Copyright © 2020 Christopher J. Howard. This text is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/). ![(**N**)](figures/n.svg) interpreter source code is licensed under the [GNU General Public License, version 3](./LICENSE.md).
