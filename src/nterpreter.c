@@ -381,5 +381,5 @@ void write_sequence_binary(FILE* file, element_t* element)
 
 void usage()
 {
-	printf("Usage: n <input file> [options] [first element] [second element] ... [nth element]\n");
+	printf("Usage: n <source file> [-o output file] [options] [first element] ... [nth element]\n");
 }
