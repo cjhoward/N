@@ -409,7 +409,7 @@ n <input file> [options] [first element] [second element] ... [nth element]
 
 #### Options:
 
-* `--binary, -b: Write output sequence as series of bytes.
+* `--binary, -b`: Write output sequence as a series of bytes.
 * `--output, -o <file>`: Write output sequence to a file.
 
 ### bin2n
