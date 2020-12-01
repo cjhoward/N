@@ -120,6 +120,9 @@ Compact:
 
 The following table lists the shortest possible single-element sequences for all natural numbers from 0 to 255:
 
+<details>
+<summary>Table of Constants</summary>
+
 | Dec | Hex  | Sequence           | Length |
 |----:|:----:|:-------------------|-------:|
 |   0 | 0x00 |                    |      0 |
@@ -378,3 +381,5 @@ The following table lists the shortest possible single-element sequences for all
 | 253 | 0xFD | `+++++[+[+]+]`     |     12 |
 | 254 | 0xFE | `+++++[+[+]+]+`    |     13 |
 | 255 | 0xFF | `+++[+[+++]-]`     |     12 |
+
+</details>
