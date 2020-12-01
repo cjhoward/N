@@ -398,9 +398,19 @@ The following tables list the fewest possible single-element operations for vari
 | 254 | 0xFE | `+++++[+[+]+]+`    |     13 |
 | 255 | 0xFF | `+++[+[+++]-]`     |     12 |
 
-## 
-
 </details>
+
+## Tools
+
+### bin2n
+
+*bin2n* is a tool which can convert any binary file into an (**N**) program which, when executed, will reproduce the exact sequence of bytes from the binary file.
+
+The usage of *bin2n* is as follows:
+
+```
+bin2n <input file> [output file]
+```
 
 ## License
 
