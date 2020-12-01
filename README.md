@@ -10,30 +10,36 @@ The only to input to a program is its initial sequence. If no input is given, th
 
 ## Syntax
 
-There are ten operators in (**N**), listed below. The syntax of (**N**) was designed such that any permutation of operators represents a valid program.
+There are no syntax errors in (**N**); the syntax of (**N**) was designed such that any permutation of operators represents a valid program. Any characters other than operator symbols and the comment delimeter, are ignored.
 
-| Symbol | Name             | Description                                                   | C equivalent                   |
-|:------:|:-----------------|:--------------------------------------------------------------|:-------------------------------|
-|  `>`   | Next element     | Go to the next element or append a zero to the sequence.      | `++ptr;`                       |
-|  `<`   | Previous element | Go to the previous element or prepend a zero to the sequence. | `--ptr;`                       |
-|  `i`   | Index            | Set the element value to its index in the sequence.           | `*ptr = ptr - head;`           |
-|  `#`   | Cardinality      | Set the element value to the length of the sequence.          | `*ptr = tail - head + 1;`      |
-|  `+`   | Successor        | Increment the element value.                                  | `++*ptr;`                      |
-|  `-`   | Predecessor      | Decrement the element value if non-zero.                      | `*ptr -= !!*ptr;`              |
-|  `[`   | Start loop       | Repeat the code in the loop *n* times (bounded).              | `for (int i = *ptr; i; --i) {` |
-|  `]`   | End loop         | Marks the end of a bounded loop.                              | `}`                            |
-|  `(`   | Left closure     | Remove all elements to the left.                              | `head = ptr;`                  |
-|  `)`   | Right closure    | Remove all elements to the right.                             | `tail = ptr;`                  |
+### Operators
+
+There are ten operators in (**N**), listed below:
+
+| Operator | Name             | Description                                                   | C equivalent                   |
+|:--------:|:-----------------|:--------------------------------------------------------------|:-------------------------------|
+|   `>`    | Next element     | Go to the next element or append a zero to the sequence.      | `++ptr;`                       |
+|   `<`    | Previous element | Go to the previous element or prepend a zero to the sequence. | `--ptr;`                       |
+|   `i`    | Index            | Set the element value to its index in the sequence.           | `*ptr = ptr - head;`           |
+|   `#`    | Cardinality      | Set the element value to the length of the sequence.          | `*ptr = tail - head + 1;`      |
+|   `+`    | Successor        | Increment the element value.                                  | `++*ptr;`                      |
+|   `-`    | Predecessor      | Decrement the element value if non-zero.                      | `*ptr -= !!*ptr;`              |
+|   `[`    | Start loop       | Repeat the code in the loop *n* times (bounded).              | `for (int i = *ptr; i; --i) {` |
+|   `]`    | End loop         | Marks the end of a bounded loop.                              | `}`                            |
+|   `(`    | Left closure     | Remove all elements to the left.                              | `head = ptr;`                  |
+|   `)`    | Right closure    | Remove all elements to the right.                             | `tail = ptr;`                  |
 
 ### Comments
 
-Comments can be safely placed inside the following code block, before any code:
+The comment delimeter is represented by a semicolon, `;`. All characters following a comment delimeter will be ignored until line ends.
 
 ```.bf
-<[Comments here]>(
+; n.n
+([-])        ; This is
++++[+[+]]++  ; a
+>++++[[+]+]- ; comment
+>+++[-[++]]- ; example
 ```
-
-The surrounding code block ensures that any input sequence is not altered.
 
 ## Signed Numbers
 
@@ -73,6 +79,8 @@ Signed numbers cannot be represented directly, but the *Church encoding* approac
 Annotated:
 
 ```.bf
+; hello.n
+([-])          ; Clear initial sequence
 ++[++[+++]]>   ;  72 | H 
 ++[[-[+]]+++]> ; 101 | e
 +++[-[+++]]>   ; 108 | l
@@ -91,7 +99,7 @@ Annotated:
 Compact:
 
 ```.bf
-++[++[+++]]>++[[-[+]]+++]>+++[-[+++]]>+++[-[+++]]>++++[+[+]+]++>+++[+[+]+]->++[[+++]]>+++[-[+++]-]>++++[+[+]+]++>++[+[+++++]]>+++[-[+++]]>+++++[-[+]]++>++[[+++]]+
+([-])++[++[+++]]>++[[-[+]]+++]>+++[-[+++]]>+++[-[+++]]>++++[+[+]+]++>+++[+[+]+]->++[[+++]]>+++[-[+++]-]>++++[+[+]+]++>++[+[+++++]]>+++[-[+++]]>+++++[-[+]]++>++[[+++]]+
 ```
 
 ### Factorial
@@ -102,18 +110,20 @@ Output: (x!)
 Annotated:
 
 ```.bf
-)>+<              ; y = 1, z = 0
+; factorial.n
+()                ; Isolate first element
+>+<               ; y = 1
 [                 ; for (i = x; i; --i) {
-	[>[>+<]<]     ;     z = x * y
-	>[-]>[<+>-]<< ;     y = z, z = 0
-	-             ;     --x
+    [>[>+<]<]     ;     z += x * y
+    >[-]>[<+>-]<< ;     y = z, z = 0
+    -             ;     --x
 ]>()              ; }
 ```
 
 Compact:
 
 ```.bf
-)>+<[[>[>+<]<]>[-]>[<+>-]<<-]>()
+()>+<[[>[>+<]<]>[-]>[<+>-]<<-]>()
 ```
 
 ## Constants
@@ -121,7 +131,7 @@ Compact:
 The following table lists the shortest possible single-element sequences for all natural numbers from 0 to 255:
 
 <details>
-<summary>Table of Constants</summary>
+<summary>Table of Constants (0, 1, 2, 3, ..., 255)</summary>
 
 | Dec | Hex  | Sequence           | Length |
 |----:|:----:|:-------------------|-------:|
@@ -383,3 +393,7 @@ The following table lists the shortest possible single-element sequences for all
 | 255 | 0xFF | `+++[+[+++]-]`     |     12 |
 
 </details>
+
+## License
+
+Copyright © 2020 Christopher J. Howard. This text is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/). (**N**) interpreter source code is licensed under the [GNU General Public License, version 3](./LICENSE.md).
