@@ -20,7 +20,7 @@ The only control flow structure in ![(**N**)](figures/n.svg) is a bounded loop, 
 
 ## Syntax
 
-There are no syntax errors in ![(**N**)](figures/n.svg); the syntax of ![(**N**)](figures/n.svg) was designed such that any permutation of operators represents a valid program. Any characters other than operators and comment delimeters are ignored.
+There are no syntax errors in ![(**N**)](figures/n.svg); the syntax of ![(**N**)](figures/n.svg) was designed such that any permutation of operators represents a valid program. Characters other than operators and comment delimeters are ignored.
 
 ### Operators
 
@@ -403,7 +403,7 @@ The following tables list the fewest possible single-element operations for vari
 
 *nterpreter* is an ![(**N**)](figures/n.svg) interpreter. The usage of *nterpreter* is as follows:
 
-```
+```.sh
 n <input file> [options] [first element] [second element] ... [nth element]
 ```
 
@@ -411,7 +411,7 @@ n <input file> [options] [first element] [second element] ... [nth element]
 
 *bin2n* is a tool which can convert any binary file into an ![(**N**)](figures/n.svg) program which, when executed, will reproduce the exact sequence of bytes which made up the binary file. The usage of *bin2n* is as follows:
 
-```
+```.sh
 bin2n <input file> [output file]
 ```
 
