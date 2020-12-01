@@ -45,18 +45,13 @@ void usage();
 int main(int argc, char* argv[])
 {
 	int write_binary = 0;
+	FILE* output_file = stdout;
+	int output_argc = 0;
 	
 	if (argc < 2)
 	{
 		usage();
 		return ERROR_ARGC;
-	}
-	
-	// Read options
-	for (int i = 2; i < argc; ++i)
-	{
-		if (!strcmp(argv[i], "-b") || !strcmp(argv[i], "--binary"))
-			write_binary = 1;
 	}
 	
 	// Open source file
@@ -85,10 +80,37 @@ int main(int argc, char* argv[])
 		return ERROR_FREAD;
 	}
 	
+	// Read options
+	for (int i = 2; i < argc; ++i)
+	{
+		if (!strcmp(argv[i], "-b") || !strcmp(argv[i], "--binary"))
+			write_binary = 1;
+		else if (!strcmp(argv[i], "-o") || !strcmp(argv[i], "--output"))
+		{
+			if (++i < argc)
+			{
+				// Flag output file argc, so it won't be interpreted as a sequence element
+				output_argc = i;
+				
+				// Open output file
+				output_file = fopen(argv[i], "wb");
+				if (!output_file)
+				{
+					printf("Failed to open output file \"%s\"\n", argv[i]);
+					free(source);
+					return ERROR_FOPEN;
+				}
+			}
+		}
+	}
+	
 	// Read sequence elements from argv
 	element_t* sequence = 0;
 	for (int i = 2; i < argc; ++i)
 	{
+		if (i == output_argc)
+			continue;
+		
 		bignum_t value = 0;
 		if (sscanf(argv[i], "%" SCNu64, &value) == 1)
 		{
@@ -118,9 +140,13 @@ int main(int argc, char* argv[])
 	// Write sequence to file stream
 	element_t* head = find_first_element(sequence);
 	if (write_binary)
-		write_sequence_binary(stdout, head);
+		write_sequence_binary(output_file, head);
 	else
-		write_sequence_text(stdout, head);
+		write_sequence_text(output_file, head);
+	
+	// Close output file
+	if (output_file != stdout)
+		fclose(output_file);
 	
 	// Free source buffer
 	free(source);
@@ -334,7 +360,7 @@ void write_sequence_text(FILE* file, element_t* element)
 		
 		element = element->next;
 		if (element)
-			printf(" ");	
+			fprintf(file, " ");	
 	}
 }
 
