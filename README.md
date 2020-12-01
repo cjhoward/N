@@ -4,13 +4,13 @@
 
 ## Programs
 
-A program transforms a sequence of natural numbers into a new sequence of natural numbers. The only control flow structure in (**N**) is a bounded loop, meaning that all programs are *provably terminating*.
+A program transforms a sequence of natural numbers into a new sequence of natural numbers. The only to input to a program is its initial sequence. If no input is given, the initial sequence will be the zero singleton, (0).
 
-The only to input to a program is its initial sequence. If no input is given, the initial sequence will be the zero singleton, (0).
+The only control flow structure in (**N**) is a bounded loop, meaning that all programs are *provably terminating*.
 
 ## Syntax
 
-There are no syntax errors in (**N**); the syntax of (**N**) was designed such that any permutation of operators represents a valid program. Any characters other than operator symbols and the comment delimeter, are ignored.
+There are no syntax errors in (**N**); the syntax of (**N**) was designed such that any permutation of operators represents a valid program. Any characters other than operators and comment delimeters are ignored.
 
 ### Operators
 
@@ -20,8 +20,8 @@ There are ten operators in (**N**), listed below:
 |:--------:|:-----------------|:--------------------------------------------------------------|:-------------------------------|
 |   `>`    | Next element     | Go to the next element or append a zero to the sequence.      | `++ptr;`                       |
 |   `<`    | Previous element | Go to the previous element or prepend a zero to the sequence. | `--ptr;`                       |
-|   `i`    | Index            | Set the element value to its index in the sequence.           | `*ptr = ptr - head;`           |
-|   `#`    | Cardinality      | Set the element value to the length of the sequence.          | `*ptr = tail - head + 1;`      |
+|   `i`    | Index            | Set the element value to its index.                           | `*ptr = ptr - head;`           |
+|   `#`    | Cardinality      | Set the element value to the sequence length.                 | `*ptr = tail - head + 1;`      |
 |   `+`    | Successor        | Increment the element value.                                  | `++*ptr;`                      |
 |   `-`    | Predecessor      | Decrement the element value if non-zero.                      | `*ptr -= !!*ptr;`              |
 |   `[`    | Start loop       | Repeat the code in the loop *n* times (bounded).              | `for (int i = *ptr; i; --i) {` |
@@ -31,7 +31,7 @@ There are ten operators in (**N**), listed below:
 
 ### Comments
 
-The comment delimeter is represented by a semicolon, `;`. All characters following a comment delimeter will be ignored until line ends.
+The comment delimeter is represented by a semicolon, `;`. All characters following a comment delimeter will be ignored until the line ends.
 
 ```.bf
 ; n.n
@@ -113,7 +113,7 @@ Annotated:
 ; factorial.n
 ()                ; Isolate first element
 >+<               ; y = 1
-[                 ; for (i = x; i; --i) {
+[                 ; for (j = x; j; --j) {
     [>[>+<]<]     ;     z += x * y
     >[-]>[<+>-]<< ;     y = z, z = 0
     -             ;     --x
@@ -128,12 +128,12 @@ Compact:
 
 ## Constants
 
-The following table lists the shortest possible single-element sequences for all natural numbers from 0 to 255:
+The following tables list the shortest possible single-element operations for various numbers:
 
 <details>
-<summary>Table of Constants (0, 1, 2, 3, ..., 255)</summary>
+<summary>8-bit (0, 1, 2, 3, ..., 255)</summary>
 
-| Dec | Hex  | Sequence           | Length |
+| Dec | Hex  | Operations         | Length |
 |----:|:----:|:-------------------|-------:|
 |   0 | 0x00 |                    |      0 |
 |   1 | 0x01 | `+`                |      1 |

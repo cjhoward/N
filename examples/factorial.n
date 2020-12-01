@@ -1,7 +1,7 @@
 ; factorial.n
 ()                ; Isolate first element
 >+<               ; y = 1
-[                 ; for (i = x; i; --i) {
+[                 ; for (j = x; j; --j) {
     [>[>+<]<]     ;     z += x * y
     >[-]>[<+>-]<< ;     y = z, z = 0
     -             ;     --x
