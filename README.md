@@ -86,9 +86,6 @@ Compact:
 
 ### Factorial
 
-Input: (x)  
-Output: (x!)
-
 Annotated:
 
 ```.bf
