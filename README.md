@@ -38,7 +38,7 @@ A table of all nine operators and their descriptions is given below:
 |   `>`    | Shift right | Right circular shift all elements by one position.                                                |
 |   `<`    | Shift left  | Left circular shift all elements by one position.                                                 |
 |   `:`    | Append      | Append the value of the first element to the end of the sequence.                                 |
-|  `\|`    | Truncate    | Remove the last element from the sequence, if sequence has more than one element.                 |
+|  `\|`    | Truncate    | Remove the last element from the sequence, if the sequence has more than one element.             |
 |   `[`    | Loop start  | Set loop counter to the value of the first element, then jump past the matching loop end if zero. |
 |   `]`    | Loop end    | Decrement loop counter then jump back to the start of the loop if non-zero.                       |
 
@@ -50,7 +50,7 @@ The comment delimeter is represented by a semicolon, `;`. All characters followi
 
 This sections contains a few example programs written in ![(**N**)](figures/n.svg). For more examples, see the [examples](./examples) directory.
 
-### Hello, World! (Naïve)
+### Hello, World! (Unoptimized)
 
 ```.bf
 ; hello.n
