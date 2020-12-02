@@ -9,16 +9,16 @@ Inspired by the recombinant nature of genetic code, along with programming langu
 1. [Programs](#programs)
 2. [Syntax](#syntax)
 3. [Examples](#examples)
-4. [Algorithms](#algorithms)
-5. [Constants](#constants)
-6. [Tools](#tools)
+4. [Tools](#tools)
+5. [Algorithms](#algorithms)
+6. [Constants](#constants)
 7. [License](#license)
 
 ## Programs
 
 An ![(**N**)](figures/n.svg) program transforms a sequence of natural numbers. The only input to a program is its initial sequence, and the only output is its final sequence. If no input sequence is given, the initial sequence will be the zero singleton, (0).
 
-The only control flow structure in ![(**N**)](figures/n.svg) is a bounded loop, meaning that the number of times a loop is repeated is determined *before* the loop is entered, and cannot be changed from inside the loop itself. This results in all ![(**N**)](figures/n.svg) programs being *provably terminating*.
+The only control flow structure in ![(**N**)](figures/n.svg) is a bounded loop, meaning that the number of times a loop is repeated is determined before the loop is entered, and cannot be changed from inside the loop itself. This results in all ![(**N**)](figures/n.svg) programs being *provably terminating*.
 
 ## Syntax
 
@@ -100,6 +100,37 @@ This sections contains a few example programs written in ![(**N**)](figures/n.sv
     [-]>[<+>]     ;     a_{i+1}  = a_{i}
 ]                 ; }
 >||               ; return (a_{i-1})
+```
+
+## Tools
+
+The tools provided in this repository include an ![(**N**)](figures/n.svg) interpreter and a binary to ![(**N**)](figures/n.svg) converter. The provided tools are written in C, and can be built with CMake using the following commands:
+
+```.sh
+cd build
+cmake .. -G <generator-name> -DCMAKE_BUILD_Type=[Release, Debug] 
+cmake --build .
+```
+
+### nterpreter
+
+*nterpreter* is an ![(**N**)](figures/n.svg) interpreter. The usage of *nterpreter* is as follows:
+
+```.sh
+n <source file> [-o output file] [options] [first element] ... [nth element]
+```
+
+#### Options:
+
+* `--binary, -b`: Write output sequence as a series of bytes.
+* `--output, -o <file>`: Write output sequence to a file.
+
+### bin2n
+
+*bin2n* is a tool which can convert any binary file into an ![(**N**)](figures/n.svg) program which, when executed, will reproduce the exact sequence of bytes which made up the binary file. The usage of *bin2n* is as follows:
+
+```.sh
+bin2n <input file> [output file]
 ```
 
 ## Algorithms
@@ -391,37 +422,6 @@ The following tables list the fewest possible single-element operations for vari
 | 255 | 0xFF |       | `+++[+[+++]-]`     |     12 |
 
 </details>
-
-## Tools
-
-The tools provided in this repository include an ![(**N**)](figures/n.svg) interpreter and a binary to ![(**N**)](figures/n.svg) converter. The provided tools are written in C, and can be built with CMake using the following commands:
-
-```.sh
-cd build
-cmake .. -G <generator-name> -DCMAKE_BUILD_Type=[Release, Debug] 
-cmake --build .
-```
-
-### nterpreter
-
-*nterpreter* is an ![(**N**)](figures/n.svg) interpreter. The usage of *nterpreter* is as follows:
-
-```.sh
-n <source file> [-o output file] [options] [first element] ... [nth element]
-```
-
-#### Options:
-
-* `--binary, -b`: Write output sequence as a series of bytes.
-* `--output, -o <file>`: Write output sequence to a file.
-
-### bin2n
-
-*bin2n* is a tool which can convert any binary file into an ![(**N**)](figures/n.svg) program which, when executed, will reproduce the exact sequence of bytes which made up the binary file. The usage of *bin2n* is as follows:
-
-```.sh
-bin2n <input file> [output file]
-```
 
 ## License
 
