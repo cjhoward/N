@@ -50,8 +50,8 @@ This sections contains a few example programs written in ![(**N**)](figures/n.sv
 
 ```.bf
 ; hello.n
-#[|]#-            ; Clear initial sequence
-++++[++]+[:<[-]]| ; Add 12 zero elements
+#[|-]             ; Clear initial sequence
+::::::::::::      ; Add 12 zero elements
 ++[++[+++]]<      ;  72 | H
 ++[[-[+]]+++]<    ; 101 | e
 +++[-[+++]]<      ; 108 | l
