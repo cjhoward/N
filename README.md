@@ -45,26 +45,28 @@ The comment delimeter is represented by a semicolon, `;`. All characters followi
 
 ## Examples
 
+This sections contains a few example programs written in ![(**N**)](figures/n.svg). For more examples, see the [examples](./examples) directory.
+
 ### Hello, World! (Naïve)
 
 Annotated:
 
 ```.bf
 ; hello.n
-([-])          ; Clear initial sequence
-++[++[+++]]>   ;  72 | H 
-++[[-[+]]+++]> ; 101 | e
-+++[-[+++]]>   ; 108 | l
-+++[-[+++]]>   ; 108 | l
-++++[+[+]+]++> ; 111 | o
-+++[+[+]+]->   ;  44 | ,
-++[[+++]]>     ;  32 |  
-+++[-[+++]-]>  ;  87 | W
-++++[+[+]+]++> ; 111 | o
-++[+[+++++]]>  ; 114 | r
-+++[-[+++]]>   ; 108 | l
-+++++[-[+]]++> ; 100 | d
-++[[+++]]+     ;  33 | !
+([-])             ; Clear initial sequence
+++[++[+++]]>      ;  72 | H 
+++[[-[+]]+++]>    ; 101 | e
++++[-[+++]]>      ; 108 | l
++++[-[+++]]>      ; 108 | l
+++++[+[+]+]++>    ; 111 | o
++++[+[+]+]->      ;  44 | ,
+++[[+++]]>        ;  32 |  
++++[-[+++]-]>     ;  87 | W
+++++[+[+]+]++>    ; 111 | o
+++[+[+++++]]>     ; 114 | r
++++[-[+++]]>      ; 108 | l
++++++[-[+]]++>    ; 100 | d
+++[[+++]]+        ;  33 | !
 ```
 
 Compact:
@@ -80,11 +82,11 @@ Annotated:
 ```.bf
 ; factorial.n
 ()                ; Isolate first element
->+<               ; y = 1
-[                 ; for (j = x; j; --j) {
-    [>[>+<]<]     ;     z += x * y
-    >[-]>[<+>-]<< ;     y = z, z = 0
-    -             ;     --x
+>+<               ; a_{i+1} = 1
+[                 ; for (j = a_{i}; j; --j) {
+    [>[>+<]<]     ;     a_{i+2} += a_{i} * a_{i+1}
+    >[-]>[<+>-]<< ;     a_{i+1}  = a_{i+2}, a_{i+2} = 0
+    -             ;     a_{i}   -= 1
 ]>()              ; }
 ```
 
@@ -92,6 +94,30 @@ Compact:
 
 ```.bf
 ()>+<[[>[>+<]<]>[-]>[<+>-]<<-]>()
+```
+
+### Fibonacci Sequence
+
+Annotated:
+
+```.bf
+; fibonacci.n
+()                ; Isolate first element
+<+>               ; a_{i-1}  = 1
+[>+<]>[[-]+]      ; a_{i+1}  = (a_{i} > 0) ? 1 : 0;
+<--               ; a_{i}   -= 2
+[                 ; for (j = a_{i}; j; --j) {
+    [-]>[<+>]<    ;     a_{i}    = a_{i+1}
+	<[>>+<<]      ;     a_{i+1} += a_{i-1}
+    [-]>[<+>]     ;     a_{i-2}  = a_{i}
+]                 ; }
+>(                ; return (a_{i+1})
+```
+
+Compact:
+
+```.bf
+()<+>[>+<]>[[-]+]<--[-]>[<+>]<<[>>+<<][-]>[<+>]]>(
 ```
 
 ## Algorithms
