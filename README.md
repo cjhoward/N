@@ -24,19 +24,21 @@ There are no syntax errors in ![(**N**)](figures/n.svg); the syntax of ![(**N**)
 
 ### Operators
 
-There are nine operators in ![(**N**)](figures/n.svg), listed below:
+Operators in ![(**N**)](figures/n.svg) operate on either the first element, last element, or the sequence as a whole. There are no binary operators in ![(**N**)](figures/n.svg).
 
-| Operator | Name        | Description                                         | C equivalent (circular linked list)                  |
-|:--------:|:------------|:----------------------------------------------------|:-----------------------------------------------------|
-|   `>`    | Shift right | Circularly shift all elements right.                | `node = node->previous;`                             |
-|   `<`    | Shift left  | Circularly shift all elements left.                 | `node = node->next;`                                 |
-|   `:`    | Cons        | Append head value to tail.                          | `prepend(node, node->value);`                        |
-|  `\|`    | Truncate    | Remove last element if not head.                    | `if (node != node->previous) erase(node->previous);` |
-|   `#`    | Cardinality | Set head value to the sequence length.              | `node->value = count_nodes(node);`                   |
-|   `+`    | Successor   | Increment head value.                               | `++node->value;`                                     |
-|   `-`    | Predecessor | Decrement head value if non-zero.                   | `node->value -= !!node->value;`                      |
-|   `[`    | Start loop  | Repeat the code in the loop *head* times (bounded). | `for (int j = node->value; j; --j) {`                |
-|   `]`    | End loop    | Marks the end of a bounded loop.                    | `}`                                                  |
+A table of all nine operators and their descriptions is given below:
+
+| Operator | Name        | Description                                                                                       |
+|:--------:|:------------|:--------------------------------------------------------------------------------------------------|
+|   `+`    | Increment   | Increment the value of the first element.                                                         |
+|   `-`    | Decrement   | Decrement the value of the first element, if non-zero.                                            |
+|   `#`    | Count       | Set the value of the first element to the current length of the sequence.                         |
+|   `>`    | Shift right | Right circular shift all elements by one position.                                                |
+|   `<`    | Shift left  | Left circular shift all elements by one position.                                                 |
+|   `:`    | Append      | Append the value of the first element to the end of the sequence.                                 |
+|  `\|`    | Truncate    | Remove the last element from the sequence, if sequence has more than one element.                 |
+|   `[`    | Loop start  | Set loop counter to the value of the first element, then jump past the matching loop end if zero. |
+|   `]`    | Loop end    | Decrement loop counter then jump back to the start of the loop if non-zero.                       |
 
 ### Comments
 
