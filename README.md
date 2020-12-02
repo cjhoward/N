@@ -26,9 +26,7 @@ There are no syntax errors in ![(**N**)](figures/n.svg); the syntax of ![(**N**)
 
 ### Operators
 
-Operators in ![(**N**)](figures/n.svg) operate on either the first element, last element, or the sequence as a whole; there are no binary operators.
-
-A table of all nine operators and their descriptions is given below:
+Operators in ![(**N**)](figures/n.svg) operate on either the first element, last element, or the sequence as a whole; there are no binary operators. A table of all nine operators and their descriptions is given below:
 
 | Operator | Name        | Description                                                                                       |
 |:--------:|:------------|:--------------------------------------------------------------------------------------------------|
@@ -138,25 +136,18 @@ bin2n <input file> [output file]
 
 ## Algorithms
 
-| Name          | Input  | Output                  | Operations                       |
-|:--------------|:-------|:------------------------|:---------------------------------|
-| x = 0         | (x)    | (0)                     | `[-]`                            |
-| x = 1         | (x)    | (1)                     | `[-]+`                           |
-| x = !x        | (x)    | (~x, ~x)                | `>[-]+<[->-<]>[<+>]<`            |
-| x = !!x       | (x)    | (~~x)                   | `[[-]+]`                         |
-| x *= x        | (x)    | (x*x, x)                | `>[-]<[>+<-]>[[<+>]]<`           |
-| x = y         | (x, y) | (y, y)                  | `[-]>[<+>]<`                     |
-| x = !y        | (x, y) | (~y, y)                 | `[-]+>[<[-]>]<`                  |
-| x += y        | (x, y) | (x+y, y)                | `>[<+>]<`                        |
-| x -= y        | (x, y) | (x-y, y)                | `>[<->]<`                        |
-| x *= y        | (x, y) | (x*y, y, x)             | `>>[-]<<[>>+<<-]>>[<[<+>]>-]<<`  |
-| y += x        | (x, y) | (x, y+x)                | `[>+<]<`                         |
-| y -= x        | (x, y) | (x, y-x)                | `[>-<]<`                         |
-| y = x * x     | (x)    | (x, x*x)                | `>[-]<[[>+<]]`                   |
-| z = x * y     | (x, y) | (x, y, x*y)             | `>>[-]<<[>[>+<]<]`               |
-| swap(x, y)    | (x, y) | (y, x, y)               | `>>[-]<<[>>+<<-]>[<+>-]>[<+>]<<` |
-| zero          | (x)    | (0, ..., 0), i=i+x      | `[[-]>[-]]`                      |
-| index         | (x)    | (0, ..., i), i=i+x      | `[[-]<[>+<]>+>]`                 |
+| Name         | Input  | Output         | Operations                       |
+|:-------------|:-------|:---------------|:---------------------------------|
+| x = 0        | (x)    | (0)            | `[-]`                            |
+| x = 1        | (x)    | (1)            | `[-]+`                           |
+| x = !!x      | (x)    | (!!x)          | `[[-]+]`                         |
+| x = y        | (x, y) | (y, y)         | `[-]<[>+<]>`                     |
+| x = x + y    | (x, y) | (x + y, y)     | `<[>+<]>`                        |
+| x = x - y    | (x, y) | (x - y, y)     | `<[>-<]>`                        |
+| x = x * y    | (x, y) | (x * y, y)     | `:[-]>[<<[>+<]>>]<|`             |
+| x = x^2      | (x)    | (x^2)          | `:[-]>[[<+>]]<|`                 |
+| if (x) {...} | (x)    | (x)            | `:>[[-]+][<...>]<|`              |
+| swap(x, y)   | (x, y) | (y, x)         | `:>[-]<<[>>+<<]<|>>`             |
 
 ## Constants
 
