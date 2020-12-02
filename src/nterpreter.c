@@ -105,8 +105,8 @@ int main(int argc, char* argv[])
 	}
 	
 	// Read sequence elements from argv
-	element_t* tail = 0;
-	for (int i = 2; i < argc; ++i)
+	element_t* head = 0;
+	for (int i = argc - 1; i >= 2; --i)
 	{
 		if (i == output_argc)
 			continue;
@@ -114,16 +114,13 @@ int main(int argc, char* argv[])
 		bignum_t value = 0;
 		if (sscanf(argv[i], "%" SCNu64, &value) == 1)
 		{
-			tail = append_sequence(tail, value);
+			head = append_sequence(head, value);
 		}
 	}
 	
-	// Find head of sequence
-	element_t* head = 0;
-	if (!tail)
+	// Create zero singleton if no initial sequence was given
+	if (!head)
 		head = append_sequence(0, 0);
-	else
-		head = tail->next;
 	
 	// Preprocess source code
 	preprocess(&source);

@@ -31,7 +31,7 @@ There are nine operators in ![(**N**)](figures/n.svg), listed below:
 |   `>`    | Shift right | Circularly shift all elements right.                | `node = node->previous;`                             |
 |   `<`    | Shift left  | Circularly shift all elements left.                 | `node = node->next;`                                 |
 |   `:`    | Cons        | Append head value to tail.                          | `prepend(node, node->value);`                        |
-|  `\|`    | Truncate    | Remove tail if not head.                            | `if (node != node->previous) erase(node->previous);` |
+|  `\|`    | Truncate    | Remove last element if not head.                    | `if (node != node->previous) erase(node->previous);` |
 |   `#`    | Cardinality | Set head value to the sequence length.              | `node->value = count_nodes(node);`                   |
 |   `+`    | Successor   | Increment head value.                               | `++node->value;`                                     |
 |   `-`    | Predecessor | Decrement head value if non-zero.                   | `node->value -= !!node->value;`                      |
