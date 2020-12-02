@@ -20,7 +20,7 @@
 #ifndef BIN2N_H
 #define BIN2N_H
 
-const char* bin2n_clear_sequence = "([-])";
+const char* bin2n_clear_sequence = "#[|]#-";
 
 const char* const bin2n_operations[] =
 {

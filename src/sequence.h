@@ -23,7 +23,7 @@
 #include <stddef.h>
 #include "bignum.h"
 
-/// Sequence element type, implemented as a doubly linked list node.
+/// Sequence element type, implemented as a circular doubly linked list node.
 typedef struct element_t
 {
 	/// Pointer to the previous element in the sequence.
@@ -37,34 +37,16 @@ typedef struct element_t
 	
 } element_t;
 
-/// Returns a pointer to the first element in a sequence.
-element_t* find_first_element(element_t* element);
-
-/// Returns a pointer to the last element in a sequence.
-element_t* find_last_element(element_t* element);
-
 /// Returns the total number of elements in a sequence.
-size_t count_elements(element_t* element);
+size_t count_elements(element_t* head);
 
-/// Returns the index of an element in the sequence.
-size_t find_element_index(element_t* element);
+/// Appends an element to a sequence
+element_t* append_sequence(element_t* head, bignum_t value);
 
-/// Inserts an element into a sequence, following the given element.
-element_t* append_element(element_t* element);
+/// Erases the last element of a sequence, if not a singleton.
+size_t truncate_sequence(element_t* head);
 
-/// Inserts an element into a sequence, preceding the given element.
-element_t* prepend_element(element_t* element);
-
-/// Erases all elements preceding the given element.
-void erase_preceding_elements(element_t* element);
-
-/// Erases all elements following the given element.
-void erase_succeeding_elements(element_t* element);
-
-/// Erases all elements in a sequence.
-void free_sequence(element_t* element);
-
-/// Returns the number of matching elements of two sequences.
-size_t compare_sequences(element_t* a, element_t* b);
+/// Deallocates all elements in a sequence.
+void free_sequence(element_t* head);
 
 #endif // SEQUENCE_H

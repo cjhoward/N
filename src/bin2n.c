@@ -19,6 +19,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "bin2n.h"
 
 #define ERROR_ARGC 1
@@ -30,8 +31,10 @@ int main(int argc, char* argv[])
 {
 	FILE* input, *output;
 	unsigned char index;
-	char next_element = '\0';
 	int write_success = 1;
+	size_t input_size;
+	const char op_cons = ':';
+	const char op_lshift = '<';
 	
 	if (argc != 2 && argc != 3)
 	{
@@ -47,6 +50,11 @@ int main(int argc, char* argv[])
 		return ERROR_INPUT;
 	}
 	
+	// Determine size of input file
+	fseek(input, 0, SEEK_END);
+	input_size = ftell(input);
+	rewind(input);
+	
 	// Open output file or stdout
 	output = (argc == 3) ? fopen(argv[2], "wb") : stdout;
 	if (!output)
@@ -58,16 +66,16 @@ int main(int argc, char* argv[])
 	// Write clear sequence to output
 	write_success = (fwrite(bin2n_clear_sequence, 1, strlen(bin2n_clear_sequence), output) == strlen(bin2n_clear_sequence));
 	
+	// Write allocation operations
+	for (size_t i = 1; (i < input_size) && write_success; ++i)
+		write_success = (fwrite(&op_cons, 1, 1, output) == 1);
+	
 	// Translate input bytes to operations, then write to output
 	while (write_success && fread(&index, 1, 1, input))
 	{
-		if (next_element != '\0')
-			write_success = (fwrite(&next_element, 1, 1, output) == 1);
-		else
-			next_element = '>';
-		
+		write_success = (fwrite(bin2n_operations[index], 1, bin2n_lengths[index], output) == bin2n_lengths[index]);
 		if (write_success)
-			write_success = (fwrite(bin2n_operations[index], 1, bin2n_lengths[index], output) == bin2n_lengths[index]);
+			write_success = (fwrite(&op_lshift, 1, 1, output) == 1);
 	}
 	
 	// Close input and output file streams

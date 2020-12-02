@@ -31,13 +31,13 @@
 void preprocess(char** source);
 
 /// Interprets an (N) program and returns the resulting sequence.
-element_t* interpret(const char* source, element_t* sequence);
+element_t* interpret(const char* source, element_t* head);
 
 /// Writes a sequence to a file stream in text mode, with space-delimeted textual elements.
-void write_sequence_text(FILE* file, element_t* element);
+void write_sequence_text(FILE* file, element_t* head);
 
 /// Writes a sequence to a file stream in binary mode, with element values translated to binary.
-void write_sequence_binary(FILE* file, element_t* element);
+void write_sequence_binary(FILE* file, element_t* head);
 
 /// Prints the usage string.
 void usage();
@@ -105,7 +105,7 @@ int main(int argc, char* argv[])
 	}
 	
 	// Read sequence elements from argv
-	element_t* sequence = 0;
+	element_t* tail = 0;
 	for (int i = 2; i < argc; ++i)
 	{
 		if (i == output_argc)
@@ -114,31 +114,24 @@ int main(int argc, char* argv[])
 		bignum_t value = 0;
 		if (sscanf(argv[i], "%" SCNu64, &value) == 1)
 		{
-			sequence = append_element(sequence);
-			sequence->value = value;
+			tail = append_sequence(tail, value);
 		}
 	}
 	
-	if (!sequence)
-	{
-		// No given elements, append zero element
-		sequence = append_element(sequence);
-		sequence->value = 0;
-	}
+	// Find head of sequence
+	element_t* head = 0;
+	if (!tail)
+		head = append_sequence(0, 0);
 	else
-	{
-		// Rewind sequence to first element
-		sequence = find_first_element(sequence);
-	}
+		head = tail->next;
 	
 	// Preprocess source code
 	preprocess(&source);
 	
 	// Interpret program
-	sequence = interpret(source, sequence);
+	head = interpret(source, head);
 	
 	// Write sequence to file stream
-	element_t* head = find_first_element(sequence);
 	if (write_binary)
 		write_sequence_binary(output_file, head);
 	else
@@ -152,7 +145,7 @@ int main(int argc, char* argv[])
 	free(source);
 	
 	// Free sequence
-	free_sequence(sequence);
+	free_sequence(head);
 	
 	return EXIT_SUCCESS;
 }
@@ -173,10 +166,9 @@ void preprocess(char** source)
 				case '<':
 				case '[':
 				case ']':
-				case 'i':
+				case ':':
+				case '|':
 				case '#':
-				case '(':
-				case ')':
 					++length;
 					break;
 				
@@ -217,14 +209,13 @@ void preprocess(char** source)
 	*source = operators;
 }
 
-element_t* interpret(const char* source, element_t* sequence)
+element_t* interpret(const char* source, element_t* head)
 {
 	if (!*source)
-		return sequence;
+		return head;
 	
-	element_t* element = sequence;
-	if (!element)
-		element = append_element(sequence);
+	if (!head)
+		head = append_sequence(0, 0);
 	
 	size_t loop_depth = 0, max_loop_depth, skipped_loops = 0;
 	
@@ -246,9 +237,7 @@ element_t* interpret(const char* source, element_t* sequence)
 	loop_depth = 0;
 	bignum_t* loop_counters = calloc(max_loop_depth + 1, sizeof(bignum_t));
 	size_t* loop_headers = malloc((max_loop_depth + 1) * (sizeof(size_t)));
-	
-	size_t index = find_element_index(element);
-	size_t cardinality = count_elements(sequence);
+	size_t cardinality = count_elements(head);
 	
 	for (size_t ip = 0; ip < instruction_count; ++ip)
 	{
@@ -259,45 +248,26 @@ element_t* interpret(const char* source, element_t* sequence)
 			switch (i)
 			{
 				case '+':
-					++element->value;
+					++head->value;
 					break;
 				
 				case '-':
-					element->value -= !!element->value;
+					head->value -= !!head->value;
 					break;
 				
 				case '>':
-					if (element->next)
-					{
-						element = element->next;
-						++index;
-					}
-					else
-					{
-						element = append_element(element);
-						++cardinality;
-						++index;
-					}
+					head = head->previous;
 					break;
 				
 				case '<':
-					if (element->previous)
-					{
-						element = element->previous;
-						--index;
-					}
-					else
-					{
-						element = prepend_element(element);
-						++cardinality;
-					}
+					head = head->next;
 					break;
 				
 				case '[':
-					if (element->value)
+					if (head->value)
 					{
 						++loop_depth;
-						loop_counters[loop_depth] = element->value;
+						loop_counters[loop_depth] = head->value;
 						loop_headers[loop_depth] = ip;
 					}
 					else
@@ -316,24 +286,18 @@ element_t* interpret(const char* source, element_t* sequence)
 					}
 					break;
 				
-				case 'i':
-					element->value = index;
+				case ':':
+					append_sequence(head, head->value);
+					++cardinality;
+					break;
+				
+				case '|':
+					cardinality -= truncate_sequence(head);
 					break;
 				
 				case '#':
-					element->value = cardinality;
+					head->value = cardinality;
 					break;
-				
-				case '(':
-					erase_preceding_elements(element);
-					index = 0;
-					break;
-				
-				case ')':
-					erase_succeeding_elements(element);
-					cardinality = index + 1;
-					break;
-					
 			}
 		}
 		else
@@ -349,24 +313,33 @@ element_t* interpret(const char* source, element_t* sequence)
 	free(loop_headers);
 	free(loop_counters);
 	
-	return element;
+	return head;
 }
 
-void write_sequence_text(FILE* file, element_t* element)
+void write_sequence_text(FILE* file, element_t* head)
 {
-	while (element)
+	if (!head)
+		return;
+	
+	element_t* element = head;
+	do
 	{
 		fprintf(file, "%" PRIu64, element->value);
 		
 		element = element->next;
-		if (element)
+		if (element != head)
 			fprintf(file, " ");	
 	}
+	while (element != head);
 }
 
-void write_sequence_binary(FILE* file, element_t* element)
+void write_sequence_binary(FILE* file, element_t* head)
 {
-	for (; element; element = element->next)
+	if (!head)
+		return;
+	
+	element_t* element = head;
+	do
 	{
 		if (element->value <= UINT8_MAX)
 			fwrite(&element->value, sizeof(uint8_t), 1, file);
@@ -376,7 +349,10 @@ void write_sequence_binary(FILE* file, element_t* element)
 			fwrite(&element->value, sizeof(uint32_t), 1, file);
 		else
 			fwrite(&element->value, sizeof(uint64_t), 1, file);
+		
+		element = element->next;
 	}
+	while (element != head);
 }
 
 void usage()

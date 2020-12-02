@@ -24,20 +24,19 @@ There are no syntax errors in ![(**N**)](figures/n.svg); the syntax of ![(**N**)
 
 ### Operators
 
-There are ten operators in ![(**N**)](figures/n.svg), listed below:
+There are nine operators in ![(**N**)](figures/n.svg), listed below:
 
-| Operator | Name             | Description                                                   | C equivalent                   |
-|:--------:|:-----------------|:--------------------------------------------------------------|:-------------------------------|
-|   `>`    | Next element     | Go to the next element or append a zero to the sequence.      | `++ptr;`                       |
-|   `<`    | Previous element | Go to the previous element or prepend a zero to the sequence. | `--ptr;`                       |
-|   `i`    | Index            | Set the element value to its index.                           | `*ptr = ptr - head;`           |
-|   `#`    | Cardinality      | Set the element value to the sequence length.                 | `*ptr = tail - head + 1;`      |
-|   `+`    | Successor        | Increment the element value.                                  | `++*ptr;`                      |
-|   `-`    | Predecessor      | Decrement the element value if non-zero.                      | `*ptr -= !!*ptr;`              |
-|   `[`    | Start loop       | Repeat the code in the loop *n* times (bounded).              | `for (int j = *ptr; j; --j) {` |
-|   `]`    | End loop         | Marks the end of a bounded loop.                              | `}`                            |
-|   `(`    | Left closure     | Remove all elements to the left.                              | `head = ptr;`                  |
-|   `)`    | Right closure    | Remove all elements to the right.                             | `tail = ptr;`                  |
+| Operator | Name        | Description                                         | C equivalent (circular linked list)                  |
+|:--------:|:------------|:----------------------------------------------------|:-----------------------------------------------------|
+|   `>`    | Shift right | Circularly shift all elements right.                | `node = node->previous;`                             |
+|   `<`    | Shift left  | Circularly shift all elements left.                 | `node = node->next;`                                 |
+|   `:`    | Cons        | Append head value to tail.                          | `prepend(node, node->value);`                        |
+|   `|`    | Truncate    | Remove tail if not head.                            | `if (node != node->previous) erase(node->previous);` |
+|   `#`    | Cardinality | Set head value to the sequence length.              | `node->value = count_nodes(node);`                   |
+|   `+`    | Successor   | Increment head value.                               | `++node->value;`                                     |
+|   `-`    | Predecessor | Decrement head value if non-zero.                   | `node->value -= !!node->value;`                      |
+|   `[`    | Start loop  | Repeat the code in the loop *head* times (bounded). | `for (int j = node->value; j; --j) {`                |
+|   `]`    | End loop    | Marks the end of a bounded loop.                    | `}`                                                  |
 
 ### Comments
 
@@ -49,75 +48,54 @@ This sections contains a few example programs written in ![(**N**)](figures/n.sv
 
 ### Hello, World! (Naïve)
 
-Annotated:
-
 ```.bf
 ; hello.n
-([-])             ; Clear initial sequence
-++[++[+++]]>      ;  72 | H 
-++[[-[+]]+++]>    ; 101 | e
-+++[-[+++]]>      ; 108 | l
-+++[-[+++]]>      ; 108 | l
-++++[+[+]+]++>    ; 111 | o
-+++[+[+]+]->      ;  44 | ,
-++[[+++]]>        ;  32 |  
-+++[-[+++]-]>     ;  87 | W
-++++[+[+]+]++>    ; 111 | o
-++[+[+++++]]>     ; 114 | r
-+++[-[+++]]>      ; 108 | l
-+++++[-[+]]++>    ; 100 | d
-++[[+++]]+        ;  33 | !
-```
-
-Compact:
-
-```.bf
-([-])++[++[+++]]>++[[-[+]]+++]>+++[-[+++]]>+++[-[+++]]>++++[+[+]+]++>+++[+[+]+]->++[[+++]]>+++[-[+++]-]>++++[+[+]+]++>++[+[+++++]]>+++[-[+++]]>+++++[-[+]]++>++[[+++]]+
+#[|]#-            ; Clear initial sequence
+++++[++]+[:<[-]]| ; Add 12 zero elements
+++[++[+++]]<      ;  72 | H
+++[[-[+]]+++]<    ; 101 | e
++++[-[+++]]<      ; 108 | l
++++[-[+++]]<      ; 108 | l
+++++[+[+]+]++<    ; 111 | o
++++[+[+]+]-<      ;  44 | ,
+++[[+++]]<        ;  32 |  
++++[-[+++]-]<     ;  87 | W
+++++[+[+]+]++<    ; 111 | o
+++[+[+++++]]<     ; 114 | r
++++[-[+++]]<      ; 108 | l
++++++[-[+]]++<    ; 100 | d
+++[[+++]]+<       ;  33 | !
 ```
 
 ### Factorial
 
-Annotated:
-
 ```.bf
 ; factorial.n
-()                ; Isolate first element
->+<               ; a_{i+1} = 1
+:<#--[|]>|        ; Isolate first element
+:>[-]:+<          ; a_{i-1} = 1, a_{i+1} = 0
 [                 ; for (j = a_{i}; j; --j) {
-    [>[>+<]<]     ;     a_{i+2} += a_{i} * a_{i+1}
-    >[-]>[<+>-]<< ;     a_{i+1}  = a_{i+2}, a_{i+2} = 0
+    [>[>+<]<]     ;     a_{i+1} += a_{i} * a_{i-1}
+    >[-]>[<+>-]>  ;     a_{i-1}  = a_{i+1}, a_{i+1} = 0
     -             ;     a_{i}   -= 1
-]>()              ; }
-```
-
-Compact:
-
-```.bf
-()>+<[[>[>+<]<]>[-]>[<+>-]<<-]>()
+]                 ; }
+>||               ; return (a_{i-1})
 ```
 
 ### Fibonacci Sequence
 
-Annotated:
-
 ```.bf
 ; fibonacci.n
-()                ; Isolate first element
-<+>               ; a_{i-1}  = 1
-[>+<]>[[-]+]      ; a_{i+1}  = (a_{i} > 0) ? 1 : 0;
+:<#--[|]>|        ; Isolate first element
+::                ; Add two elements
+<[-]+             ; a_{i+1}  = 1
+<[[-]+]           ; a_{i-1}  = (a_{i} > 0) ? 1 : 0;
 <--               ; a_{i}   -= 2
 [                 ; for (j = a_{i}; j; --j) {
-    [-]>[<+>]<    ;     a_{i}    = a_{i+1}
-	<[>>+<<]      ;     a_{i+1} += a_{i-1}
-    [-]>[<+>]     ;     a_{i-2}  = a_{i}
+    [-]>[<+>]<    ;     a_{i}    = a_{i-1}
+    <[<+>]        ;     a_{i-1} += a_{i+1}
+    [-]>[<+>]     ;     a_{i+1}  = a_{i}
 ]                 ; }
->(                ; return (a_{i+1})
-```
-
-Compact:
-
-```.bf
-()<+>[>+<]>[[-]+]<--[-]>[<+>]<<[>>+<<][-]>[<+>]]>(
+>||               ; return (a_{i-1})
 ```
 
 ## Algorithms
@@ -141,11 +119,6 @@ Compact:
 | swap(x, y)    | (x, y) | (y, x, y)               | `>>[-]<<[>>+<<-]>[<+>-]>[<+>]<<` |
 | zero          | (x)    | (0, ..., 0), i=i+x      | `[[-]>[-]]`                      |
 | index         | (x)    | (0, ..., i), i=i+x      | `[[-]<[>+<]>+>]`                 |
-| goto head     | ()     | i=0                     | `i[<]`                           |
-| goto tail     | ()     | i=#-1                   | `#-[>]`                          |
-| jump left     | (x)    | (x, #-x), i=x           | `>i<[>-<]>[<]`                   |
-| jump right    | (x)    | (x-i, i), i=x           | `>i-[<->]<[>]`                   |
-| index n cells | (x)    | (i, ..., i+x-1), i+=x-1 | `-[i>]i`                         |
 
 ## Constants
 
