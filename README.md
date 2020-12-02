@@ -2,6 +2,8 @@
 
 ![(**N**)](figures/n.svg) is a primitive recursive programming language which operates on finite sequences of natural numbers.
 
+Inspired by languages like Douglas Hofstadter's *BlooP* and Urban Müller's *Brainfuck*, ![(**N**)](figures/n.svg) was designed with the goal of creating a language in which every program is *provably terminating*, and any permutation of operators represents a valid program.
+
 ## Table of Contents
 
 1. [Programs](#programs)
@@ -14,7 +16,7 @@
 
 ## Programs
 
-A program transforms a sequence of natural numbers. The only input to a program is its initial sequence. If no input is given, the initial sequence will be the zero singleton, (0).
+An ![(**N**)](figures/n.svg) program transforms a sequence of natural numbers. The only input to a program is its initial sequence. If no input is given, the initial sequence will be the zero singleton, (0).
 
 The only control flow structure in ![(**N**)](figures/n.svg) is a bounded loop, meaning that all programs are *provably terminating*.
 
@@ -24,7 +26,7 @@ There are no syntax errors in ![(**N**)](figures/n.svg); the syntax of ![(**N**)
 
 ### Operators
 
-Operators in ![(**N**)](figures/n.svg) operate on either the first element, last element, or the sequence as a whole. There are no binary operators in ![(**N**)](figures/n.svg).
+Operators in ![(**N**)](figures/n.svg) operate on either the first element, last element, or the sequence as a whole; there are no binary operators.
 
 A table of all nine operators and their descriptions is given below:
 
