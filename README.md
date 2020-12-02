@@ -2,7 +2,7 @@
 
 ![(**N**)](figures/n.svg) is a primitive recursive programming language which operates on finite sequences of natural numbers.
 
-Inspired by languages like Douglas Hofstadter's *BlooP* and Urban Müller's *Brainfuck*, ![(**N**)](figures/n.svg) was designed with the goal of creating a language in which every program is *provably terminating*, and any permutation of operators represents a valid program.
+Inspired by the recombinant nature of genetic code, along with programming languages like Douglas Hofstadter's *BlooP* and Urban Müller's *Brainfuck*, ![(**N**)](figures/n.svg) was designed with the goal of creating a language in which any permutation of operators represents a valid program, and every program is *provably terminating*.
 
 ## Table of Contents
 
@@ -16,7 +16,7 @@ Inspired by languages like Douglas Hofstadter's *BlooP* and Urban Müller's *Bra
 
 ## Programs
 
-An ![(**N**)](figures/n.svg) program transforms a sequence of natural numbers. The only input to a program is its initial sequence. If no input is given, the initial sequence will be the zero singleton, (0).
+An ![(**N**)](figures/n.svg) program transforms a sequence of natural numbers. The only input to a program is its initial sequence, and the only output is its final sequence. If no input sequence is given, the initial sequence will be the zero singleton, (0).
 
 The only control flow structure in ![(**N**)](figures/n.svg) is a bounded loop, meaning that all programs are *provably terminating*.
 
