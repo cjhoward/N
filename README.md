@@ -117,13 +117,16 @@ cmake --build .
 *nterpreter* is an ![(**N**)](figures/n.svg) interpreter. The usage of *nterpreter* is as follows:
 
 ```.sh
-n <source file> [-o output file] [options] [first element] ... [nth element]
+n <source file> [options] [first element] ... [last element]
 ```
 
 #### Options:
 
-* `--binary, -b`: Write output sequence as a series of bytes.
 * `--output, -o <file>`: Write output sequence to a file.
+* `--input-numbers,  -in`: Read input sequence as a series of numbers.
+* `--input-bytes,    -ib`: Read input sequence as a series of bytes.
+* `--output-numbers, -on`: Write output sequence as a series of numbers.
+* `--output-bytes,   -ob`: Write output sequence as a series of bytes.
 
 ### bin2n
 

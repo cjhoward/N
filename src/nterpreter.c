@@ -27,26 +27,31 @@
 #define ERROR_FOPEN 2
 #define ERROR_FREAD 3
 
+#define MODE_NUMBERS 0
+#define MODE_BYTES 1
+
 /// Preprocesses an (N) program source, removing comments and non-operators.
 void preprocess(char** source);
 
 /// Interprets an (N) program and returns the resulting sequence.
 element_t* interpret(const char* source, element_t* head);
 
-/// Writes a sequence to a file stream in text mode, with space-delimeted textual elements.
-void write_sequence_text(FILE* file, element_t* head);
+/// Writes a sequence to a file stream in text mode, with space-delimeted numbers.
+void write_sequence_numbers(FILE* file, element_t* head);
 
-/// Writes a sequence to a file stream in binary mode, with element values translated to binary.
-void write_sequence_binary(FILE* file, element_t* head);
+/// Writes a sequence to a file stream in binary mode, with element values translated to bytes.
+void write_sequence_bytes(FILE* file, element_t* head);
 
 /// Prints the usage string.
 void usage();
 
 int main(int argc, char* argv[])
 {
-	int write_binary = 0;
+	int input_mode = MODE_NUMBERS;
+	int output_mode = MODE_NUMBERS;
+	int first_element_arg = -1;
+	
 	FILE* output_file = stdout;
-	int output_argc = 0;
 	
 	if (argc < 2)
 	{
@@ -83,15 +88,18 @@ int main(int argc, char* argv[])
 	// Read options
 	for (int i = 2; i < argc; ++i)
 	{
-		if (!strcmp(argv[i], "-b") || !strcmp(argv[i], "--binary"))
-			write_binary = 1;
+		if (!strcmp(argv[i], "-ob") || !strcmp(argv[i], "--output-bytes"))
+			output_mode = MODE_BYTES;
+		else if (!strcmp(argv[i], "-on") || !strcmp(argv[i], "--output-numbers"))
+			output_mode = MODE_NUMBERS;
+		else if (!strcmp(argv[i], "-ib") || !strcmp(argv[i], "--input-bytes"))
+			input_mode = MODE_BYTES;
+		else if (!strcmp(argv[i], "-in") || !strcmp(argv[i], "--input-numbers"))
+			input_mode = MODE_NUMBERS;
 		else if (!strcmp(argv[i], "-o") || !strcmp(argv[i], "--output"))
 		{
 			if (++i < argc)
 			{
-				// Flag output file argc, so it won't be interpreted as a sequence element
-				output_argc = i;
-				
 				// Open output file
 				output_file = fopen(argv[i], "wb");
 				if (!output_file)
@@ -102,19 +110,29 @@ int main(int argc, char* argv[])
 				}
 			}
 		}
+		else if (first_element_arg < 0)
+		{
+			first_element_arg = i;
+		}
 	}
 	
 	// Read sequence elements from argv
 	element_t* head = 0;
-	for (int i = argc - 1; i >= 2; --i)
+	if (first_element_arg > 0)
 	{
-		if (i == output_argc)
-			continue;
-		
-		bignum_t value = 0;
-		if (sscanf(argv[i], "%" SCNu64, &value) == 1)
+		for (int i = argc - 1; i >= first_element_arg; --i)
 		{
-			head = append_sequence(head, value);
+			if (input_mode == MODE_NUMBERS)
+			{
+				bignum_t value = 0;
+				if (sscanf(argv[i], "%" SCNu64, &value) == 1)
+					head = append_sequence(head, value);
+			}
+			else
+			{
+				for (int j = strlen(argv[i]) - 1; j >= 0; --j)
+					head = append_sequence(head, (bignum_t)argv[i][j]);
+			}
 		}
 	}
 	
@@ -129,10 +147,10 @@ int main(int argc, char* argv[])
 	head = interpret(source, head);
 	
 	// Write sequence to file stream
-	if (write_binary)
-		write_sequence_binary(output_file, head);
+	if (output_mode == MODE_BYTES)
+		write_sequence_bytes(output_file, head);
 	else
-		write_sequence_text(output_file, head);
+		write_sequence_numbers(output_file, head);
 	
 	// Close output file
 	if (output_file != stdout)
@@ -313,7 +331,7 @@ element_t* interpret(const char* source, element_t* head)
 	return head;
 }
 
-void write_sequence_text(FILE* file, element_t* head)
+void write_sequence_numbers(FILE* file, element_t* head)
 {
 	if (!head)
 		return;
@@ -330,7 +348,7 @@ void write_sequence_text(FILE* file, element_t* head)
 	while (element != head);
 }
 
-void write_sequence_binary(FILE* file, element_t* head)
+void write_sequence_bytes(FILE* file, element_t* head)
 {
 	if (!head)
 		return;
@@ -354,5 +372,5 @@ void write_sequence_binary(FILE* file, element_t* head)
 
 void usage()
 {
-	printf("Usage: n <source file> [-o output file] [options] [first element] ... [nth element]\n");
+	printf("Usage: n <source file> [options] [first element] ... [nth element]\n");
 }
