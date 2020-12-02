@@ -18,7 +18,7 @@ Inspired by the recombinant nature of genetic code, along with programming langu
 
 An ![(**N**)](figures/n.svg) program transforms a sequence of natural numbers. The only input to a program is its initial sequence, and the only output is its final sequence. If no input sequence is given, the initial sequence will be the zero singleton, (0).
 
-The only control flow structure in ![(**N**)](figures/n.svg) is a bounded loop, meaning that all programs are *provably terminating*.
+The only control flow structure in ![(**N**)](figures/n.svg) is a bounded loop, meaning that the number of times a loop is repeated is determined *before* the loop is entered, and cannot be changed from inside the loop itself. This results in all ![(**N**)](figures/n.svg) programs being *provably terminating*.
 
 ## Syntax
 
