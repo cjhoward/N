@@ -43,9 +43,10 @@ const char* op_trn = "c-=x(h);";
 const char* op_lst = "for(int i=h->v;i;--i){";
 const char* op_lsp = "}";
 const char* op_add = "h->v+=0x%llXULL;";
+const char* op_sub = "h->v=(h->v>0x%llXULL)?h->v-0x%llXULL:0;";
 
-// Max length opcode: "h->v+=0xFFFFFFFFFFFFFFFFULL;"
-const size_t max_opcode_length = 28;
+// Max length opcode: "h->v=(h->v>0xFFFFFFFFFFFFFFFFULL)?h->v-0xFFFFFFFFFFFFFFFFULL:0;"
+const size_t max_opcode_length = 64;
 
 int main(int argc, char* argv[])
 {
@@ -89,17 +90,18 @@ int main(int argc, char* argv[])
 	strcat(c_source, bootstrap_header);
 	
 	// Translate opcodes from (N) to C
-	bignum_t sum = 0;
+	bignum_t consecutive_incs = 0;
+	bignum_t consecutive_decs = 0;
 	for (char* c = n_source; *c; ++c)
 	{
 		switch (*c)
 		{
 			case '+':
-				++sum;
+				++consecutive_incs;
 				break;
 			
 			case '-':
-				strcat(c_source, op_dec);
+				++consecutive_decs;
 				break;
 			
 			case '#':
@@ -131,13 +133,21 @@ int main(int argc, char* argv[])
 				break;
 		}
 		
-		if (sum && *(c + 1) != '+')
+		if (consecutive_incs && *(c + 1) != '+')
 		{
-			if (sum == 1)
+			if (consecutive_incs == 1)
 				strcat(c_source, op_inc);
 			else
-				sprintf(c_source + strlen(c_source), op_add, sum);
-			sum = 0;
+				sprintf(c_source + strlen(c_source), op_add, consecutive_incs);
+			consecutive_incs = 0;
+		}
+		else if (consecutive_decs && *(c + 1) != '-')
+		{
+			if (consecutive_decs == 1)
+				strcat(c_source, op_dec);
+			else
+				sprintf(c_source + strlen(c_source), op_sub, consecutive_decs, consecutive_decs);
+			consecutive_decs = 0;
 		}
 	}
 	
