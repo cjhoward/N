@@ -102,7 +102,7 @@ This sections contains a few example programs written in ![(**N**)](figures/n.sv
 
 ## Tools
 
-The tools provided in this repository include an ![(**N**)](figures/n.svg) interpreter and a binary to ![(**N**)](figures/n.svg) converter. The provided tools are written in C, and can be built with CMake using the following commands:
+The tools provided in this repository include an ![(**N**)](figures/n.svg) interpreter, an ![(**N**)](figures/n.svg) to C translator, and a binary to ![(**N**)](figures/n.svg) converter. The provided tools are written in C, and can be built with CMake using the following commands:
 
 ```.sh
 cd build
@@ -128,7 +128,7 @@ n <source file> [options] [first element] ... [last element]
 
 ### n2c
 
-*n2c* is a tool which can translate ![(**N**)](figures/n.svg) source code into C source code. The usage of *n2c* is as follows:
+*n2c* is a tool which can translate ![(**N**)](figures/n.svg) source code into compilable C source code. The usage of *n2c* is as follows:
 
 ```.sh
 n2c <source file>
