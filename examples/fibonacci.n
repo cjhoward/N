@@ -1,5 +1,5 @@
 ; fibonacci.n
-:<#[<\|]          ; Isolate first element
+:<#[<|]           ; Isolate first element
 ::                ; Add two elements
 <[-]+             ; a_{i+1}  = 1
 <[[-]+]           ; a_{i-1}  = (a_{i} > 0) ? 1 : 0;

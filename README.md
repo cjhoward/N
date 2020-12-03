@@ -73,7 +73,7 @@ This sections contains a few example programs written in ![(**N**)](figures/n.sv
 
 ```.bf
 ; factorial.n
-:<#[<\|]          ; Isolate first element
+:<#[< |]          ; Isolate first element
 :>[-]:+<          ; a_{i-1} = 1, a_{i+1} = 0
 [                 ; for (j = a_{i}; j; --j) {
     [>[>+<]<]     ;     a_{i+1} += a_{i} * a_{i-1}
@@ -87,7 +87,7 @@ This sections contains a few example programs written in ![(**N**)](figures/n.sv
 
 ```.bf
 ; fibonacci.n
-:<#[<\|]          ; Isolate first element
+:<#[<|]           ; Isolate first element
 ::                ; Add two elements
 <[-]+             ; a_{i+1}  = 1
 <[[-]+]           ; a_{i-1}  = (a_{i} > 0) ? 1 : 0;
