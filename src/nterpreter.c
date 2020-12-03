@@ -31,9 +31,6 @@
 #define MODE_NUMBERS 0
 #define MODE_BYTES 1
 
-/// Interprets an (N) program and returns the resulting sequence.
-element_t* interpret(const char* source, element_t* head);
-
 /// Writes a sequence to a file stream in text mode, with space-delimeted numbers.
 void write_sequence_numbers(FILE* file, element_t* head);
 
@@ -142,7 +139,7 @@ int main(int argc, char* argv[])
 	n_preprocess(&source);
 	
 	// Interpret program
-	head = interpret(source, head);
+	n_interpret(source, &head);
 	
 	// Write sequence to file stream
 	if (output_mode == MODE_BYTES)
@@ -161,113 +158,6 @@ int main(int argc, char* argv[])
 	free_sequence(head);
 	
 	return EXIT_SUCCESS;
-}
-
-element_t* interpret(const char* source, element_t* head)
-{
-	if (!*source)
-		return head;
-	
-	if (!head)
-		head = append_sequence(0, 0);
-	
-	size_t loop_depth = 0, max_loop_depth, skipped_loops = 0;
-	
-	// Count number of instructions
-	size_t instruction_count = strlen(source);
-	
-	// Count max loop depth
-	loop_depth = 0;
-	max_loop_depth = 0;
-	for (const char* c = source; *c; ++c)
-	{
-		if (*c == '[')
-			max_loop_depth += (++loop_depth > max_loop_depth);
-		else if (*c == ']')
-			loop_depth -= !!loop_depth;
-	}
-	
-	// Allocate loop stacks
-	loop_depth = 0;
-	bignum_t* loop_counters = calloc(max_loop_depth + 1, sizeof(bignum_t));
-	size_t* loop_headers = malloc((max_loop_depth + 1) * (sizeof(size_t)));
-	size_t cardinality = count_elements(head);
-	
-	for (size_t ip = 0; ip < instruction_count; ++ip)
-	{
-		char i = source[ip];
-		
-		if (!skipped_loops)
-		{
-			switch (i)
-			{
-				case '+':
-					++head->value;
-					break;
-				
-				case '-':
-					head->value -= !!head->value;
-					break;
-				
-				case '>':
-					head = head->previous;
-					break;
-				
-				case '<':
-					head = head->next;
-					break;
-				
-				case '[':
-					if (head->value)
-					{
-						++loop_depth;
-						loop_counters[loop_depth] = head->value;
-						loop_headers[loop_depth] = ip;
-					}
-					else
-					{
-						++skipped_loops;
-					}
-					break;
-				
-				case ']':
-					if (loop_depth)
-					{
-						if (--loop_counters[loop_depth])
-							ip = loop_headers[loop_depth];
-						else
-							--loop_depth;
-					}
-					break;
-				
-				case ':':
-					append_sequence(head, head->value);
-					++cardinality;
-					break;
-				
-				case '|':
-					cardinality -= truncate_sequence(head);
-					break;
-				
-				case '#':
-					head->value = cardinality;
-					break;
-			}
-		}
-		else
-		{
-			if (i == '[')
-				++skipped_loops;
-			else if (i == ']')
-				--skipped_loops;
-		}
-	}
-	
-	// Free loop stacks
-	free(loop_headers);
-	free(loop_counters);
-	
-	return head;
 }
 
 void write_sequence_numbers(FILE* file, element_t* head)

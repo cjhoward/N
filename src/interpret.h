@@ -17,14 +17,16 @@
  * along with nterpreter.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef N_PREPROCESS_H
-#define N_PREPROCESS_H
+#ifndef N_INTERPRET_H
+#define N_INTERPRET_H
+
+#include "sequence.h"
 
 /**
- * Preprocesses an (N) program source, removing comments and non-operators.
+ * Interprets an (N) program, transforming the input sequence.
  *
- * @param[in,out] (N) source code buffer.
+ * @param sequence Reference to the pointer to the first element in the input sequence.
  */
-void n_preprocess(char** source);
+void n_interpret(const char* source, element_t** sequence);
 
-#endif // N_PREPROCESS_H
+#endif // N_INTERPRET_H
