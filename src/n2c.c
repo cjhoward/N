@@ -42,9 +42,9 @@ const char* op_app = "a(h,h->v);";
 const char* op_trn = "c-=x(h);";
 const char* op_lst = "for(int i=h->v;i;--i){";
 const char* op_lsp = "}";
-const char* op_add = "h->v+=%lluULL;";
+const char* op_add = "h->v+=0x%llXULL;";
 
-// "h->v+=0xFFFFFFFFFFFFFFFFULL;"
+// Max length opcode: "h->v+=0xFFFFFFFFFFFFFFFFULL;"
 const size_t max_opcode_length = 28;
 
 int main(int argc, char* argv[])
