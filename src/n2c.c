@@ -47,9 +47,9 @@ const size_t max_opcode_length = 28;
 
 int main(int argc, char* argv[])
 {
-	if (argc != 2)
+	if (argc != 2 && argc != 3)
 	{
-		printf("Usage: n2c <source file>");
+		printf("Usage: n2c <input file> [output file]");
 		return 1;
 	}
 	
@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
 	FILE* n_source_file = fopen(argv[1], "rb");
 	if (!n_source_file)
 	{
-		printf("Failed to open (N) source file \"%s\"\n", argv[1]);
+		printf("Failed to open input file \"%s\"\n", argv[1]);
 		return 1;
 	}
 	
@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
 	n_source[n_source_length] = '\0';
 	if (fread(n_source, 1, n_source_length, n_source_file) != n_source_length)
 	{
-		printf("Failed to read (N) source file \"%s\"\n", argv[1]);
+		printf("Failed to read input file \"%s\"\n", argv[1]);
 		return 1;
 	}
 	fclose(n_source_file);
@@ -132,8 +132,20 @@ int main(int argc, char* argv[])
 	// Copy bootstrap footer into C source buffer
 	strcat(c_source, bootstrap_footer);
 	
-	// Print C source to stdout
-	fputs(c_source, stdout);
+	// Open output file, if any
+	FILE* c_source_file = stdout;
+	if (argc == 3)
+		c_source_file = fopen(argv[2], "wb");
+	
+	// Print C source to output file
+	if (c_source_file)
+		if (fputs(c_source, c_source_file) < 0)
+			if (argc == 3)
+				printf("Failed to write to output file \"%s\"\n", argv[2]);
+	
+	// Close output file, if any
+	if (c_source_file != stdout)
+		fclose(c_source_file);
 	
 	// Deallocate buffers
 	free(n_source);

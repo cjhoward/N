@@ -131,7 +131,7 @@ n <source file> [options] [first element] ... [last element]
 *n2c* is a tool which can translate ![(**N**)](figures/n.svg) source code into compilable C source code. The usage of *n2c* is as follows:
 
 ```.sh
-n2c <source file>
+n2c <input file> [output file]
 ```
 
 ### bin2n
