@@ -20,27 +20,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "bignum.h"
 #include "preprocess.h"
 
 const char* bootstrap_header = "#include <inttypes.h>\n#include <stdlib.h>\n#in"
 "clude <stdio.h>\ntypedef uint64_t n;typedef struct e{struct e*l,*r;n v;}e;e*a("
 "e*h,n v){e*t=malloc(sizeof(e));t->v=v;if(h){t->l=h->l;t->r=h;h->l->r=t;h->l=t;"
-"}else t->l=t->r=t;return t;}void x(e*h){if(h->l!=h){e*t=h->l;t->l->r=h;h->l=t-"
-">l;free(t);}}void main(int c,char**s){e* h=0,*o;n v;for(;--c;)if(sscanf(s[c],"
-"\"%llu\",&v))h=a(h,v);if(!h)h=a(h,0);c=1;";
+"}else t->l=t->r=t;return t;}int x(e*h){if(h->l!=h){e*t=h->l;t->l->r=h;h->l=t->"
+"l;free(t);return 1;}return 0;}int main(int m,char**s){e* h=0,*o;n v,c=0;for(;-"
+"-m;)if(sscanf(s[m],\"%llu\",&v)){h=a(h,v);++c;}if(!h){h=a(h,0);c=1;}";
 
 const char* bootstrap_footer = "o=h;do{printf(\"%llu\",o->v);o=o->r;if(o!=h)put"
-"char(32);}while(o!=h);}";
+"char(32);}while(o!=h);return 0;}";
 
 const char* op_inc = "++h->v;";
-const char* op_dec = "--h->v;";
+const char* op_dec = "h->v-=!!h->v;";
 const char* op_car = "h->v=c;";
 const char* op_rsh = "h=h->l;";
 const char* op_lsh = "h=h->r;";
 const char* op_app = "a(h,h->v);";
-const char* op_trn = "x(h);";
+const char* op_trn = "c-=x(h);";
 const char* op_lst = "for(int i=h->v;i;--i){";
 const char* op_lsp = "}";
+const char* op_add = "h->v+=%lluULL;";
 
 // "h->v+=0xFFFFFFFFFFFFFFFFULL;"
 const size_t max_opcode_length = 28;
@@ -87,12 +89,13 @@ int main(int argc, char* argv[])
 	strcat(c_source, bootstrap_header);
 	
 	// Translate opcodes from (N) to C
+	bignum_t sum = 0;
 	for (char* c = n_source; *c; ++c)
 	{
 		switch (*c)
 		{
 			case '+':
-				strcat(c_source, op_inc);
+				++sum;
 				break;
 			
 			case '-':
@@ -126,6 +129,15 @@ int main(int argc, char* argv[])
 			case ']':
 				strcat(c_source, op_lsp);
 				break;
+		}
+		
+		if (sum && *(c + 1) != '+')
+		{
+			if (sum == 1)
+				strcat(c_source, op_inc);
+			else
+				sprintf(c_source + strlen(c_source), op_add, sum);
+			sum = 0;
 		}
 	}
 	
