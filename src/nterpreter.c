@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "preprocess.h"
 #include "sequence.h"
 
 #define ERROR_ARGC 1
@@ -29,9 +30,6 @@
 
 #define MODE_NUMBERS 0
 #define MODE_BYTES 1
-
-/// Preprocesses an (N) program source, removing comments and non-operators.
-void preprocess(char** source);
 
 /// Interprets an (N) program and returns the resulting sequence.
 element_t* interpret(const char* source, element_t* head);
@@ -141,7 +139,7 @@ int main(int argc, char* argv[])
 		head = append_sequence(0, 0);
 	
 	// Preprocess source code
-	preprocess(&source);
+	n_preprocess(&source);
 	
 	// Interpret program
 	head = interpret(source, head);
@@ -163,65 +161,6 @@ int main(int argc, char* argv[])
 	free_sequence(head);
 	
 	return EXIT_SUCCESS;
-}
-
-void preprocess(char** source)
-{
-	char* operators, *c;
-	size_t length = 0;
-	
-	// Remove all comments and non-operator characters from source
-	for (c = *source; *c != '\0'; ++c)
-	{
-		switch (*c)
-		{
-				case '+':
-				case '-':
-				case '>':
-				case '<':
-				case '[':
-				case ']':
-				case ':':
-				case '|':
-				case '#':
-					++length;
-					break;
-				
-				case ';':
-					do
-						*c++ = ' ';
-					while (*c && *c != '\n');
-					--c;
-					break;
-				
-				default:
-					*c = ' ';
-					break;
-		}
-	}
-	
-	// Copy operators into new buffer
-	operators = malloc(length + 1);
-	operators[length] = '\0';
-	for (c = *source; *c != '\0'; ++c)
-	{
-		switch (*c)
-		{
-			case ' ':
-				break;
-			
-			default:
-				*(operators++) = *c;
-				break;
-		}
-	}
-	operators -= length;
-	
-	// Free source buffer
-	free(*source);
-	
-	// Set source buffer to operator buffer
-	*source = operators;
 }
 
 element_t* interpret(const char* source, element_t* head)

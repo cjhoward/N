@@ -126,9 +126,17 @@ n <source file> [options] [first element] ... [last element]
 * `--output-numbers, -on`: Write output sequence as a series of numbers.
 * `--output-bytes,   -ob`: Write output sequence as a series of bytes.
 
+### n2c
+
+*n2c* is a tool which can translate ![(**N**)](figures/n.svg) source code into C source code. The usage of *n2c* is as follows:
+
+```.sh
+n2c <source file>
+```
+
 ### bin2n
 
-*bin2n* is a tool which can convert any binary file into an ![(**N**)](figures/n.svg) program which, when executed, will reproduce the exact sequence of bytes which made up the binary file. The usage of *bin2n* is as follows:
+*bin2n* is a tool which converts any binary file into an ![(**N**)](figures/n.svg) program which, when executed, will reproduce the exact sequence of bytes which made up the binary file. The usage of *bin2n* is as follows:
 
 ```.sh
 bin2n <input file> [output file]
@@ -424,4 +432,4 @@ The following tables list the fewest possible single-element operations for vari
 
 ## License
 
-Copyright © 2020 Christopher J. Howard. This text is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/). nterpreter and bin2n source codes are licensed under the [GNU General Public License, version 3](./LICENSE.md).
+Copyright © 2020 Christopher J. Howard. This text is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/). nterpreter, n2c, and bin2n source codes are licensed under the [GNU General Public License, version 3](./LICENSE.md).
