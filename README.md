@@ -53,11 +53,11 @@ This sections contains a few example programs written in ![(**N**)](figures/n.sv
 ```.bf
 ; hello.n
 #[|-]             ; Clear initial sequence
-::::::::::::      ; Add 12 zero elements
+:::::::::::       ; Add 11 zero elements
 ++[++[+++]]<      ;  72 | H
 ++[[-[+]]+++]<    ; 101 | e
-+++[-[+++]]<      ; 108 | l
-+++[-[+++]]<      ; 108 | l
++++[-[+++]]       ; 108 | l
+:<                ; 108 | l
 ++++[+[+]+]++<    ; 111 | o
 +++[+[+]+]-<      ;  44 | ,
 ++[[+++]]<        ;  32 |  
@@ -73,7 +73,7 @@ This sections contains a few example programs written in ![(**N**)](figures/n.sv
 
 ```.bf
 ; factorial.n
-:<#--[|]>|        ; Isolate first element
+:<#[<\|]          ; Isolate first element
 :>[-]:+<          ; a_{i-1} = 1, a_{i+1} = 0
 [                 ; for (j = a_{i}; j; --j) {
     [>[>+<]<]     ;     a_{i+1} += a_{i} * a_{i-1}
@@ -87,7 +87,7 @@ This sections contains a few example programs written in ![(**N**)](figures/n.sv
 
 ```.bf
 ; fibonacci.n
-:<#--[|]>|        ; Isolate first element
+:<#[<\|]          ; Isolate first element
 ::                ; Add two elements
 <[-]+             ; a_{i+1}  = 1
 <[[-]+]           ; a_{i-1}  = (a_{i} > 0) ? 1 : 0;
@@ -140,14 +140,19 @@ bin2n <input file> [output file]
 |:-------------|:------------|:--------------------|:---------------------------------|
 | x = 0        | (x, ...)    | (0, ...)            | `[-]`                            |
 | x = 1        | (x, ...)    | (1, ...)            | `[-]+`                           |
-| x = !!x      | (x, ...)    | (!!x, ...)          | `[[-]+]`                         |
 | x = y        | (x, y, ...) | (y, y, ...)         | `[-]<[>+<]>`                     |
 | x = x + y    | (x, y, ...) | (x + y, y, ...)     | `<[>+<]>`                        |
 | x = x - y    | (x, y, ...) | (x - y, y, ...)     | `<[>-<]>`                        |
 | x = x * y    | (x, y, ...) | (x * y, y, ...)     | `:[-]>[<<[>+<]>>]<\|`            |
 | x = x^2      | (x, ...)    | (x^2, ...)          | `:[-]>[[<+>]]<\|`                |
+| x = !x       | (x, ...)    | (!x, ...)           | `:[-]+>[<->]<\|`                 |
+| x = !!x      | (x, ...)    | (!!x, ...)          | `[[-]+]`                         |
 | if (x) {...} | (x, ...)    | (x, ...)            | `:>[[-]+][<` {...} `>]<\|`       |
 | swap(x, y)   | (x, y, ...) | (y, x, ...)         | `:>[-]<<[>>+<<]<\|>>`            |
+| delete x     | (x, ...)    | (...)               | `<\|`                            |
+| delete y     | (x, y, ...) | (x, ...)            | `<<\|>`                          |
+| clear        | (...)       | (0)                 | `#[\|-]`                         |
+| isolate x    | (x, ...)    | (x)                 | `:<#[<\|]`                       |
 
 ## Constants
 
