@@ -73,31 +73,31 @@ This sections contains a few example programs written in ![(**N**)](figures/n.sv
 
 ```.bf
 ; factorial.n
-:<#[<|]           ; Isolate first element
-:>[-]:+<          ; a_{i-1} = 1, a_{i+1} = 0
-[                 ; for (j = a_{i}; j; --j) {
-    [>[>+<]<]     ;     a_{i+1} += a_{i} * a_{i-1}
-    >[-]>[<+>-]>  ;     a_{i-1}  = a_{i+1}, a_{i+1} = 0
-    -             ;     a_{i}   -= 1
+:<#[<|]           ; Isolate first element, x
+:>[-]:+<          ; Add two elements, z = 1, y = 0
+[                 ; for (j = x; j; --j) {
+    [>[>+<]<]     ;     y += x * z
+    >[-]>[<+>-]>  ;     z = y, y = 0
+    -             ;     --x
 ]                 ; }
->||               ; return (a_{i-1})
+>||               ; return z
 ```
 
 ### Fibonacci Sequence
 
 ```.bf
 ; fibonacci.n
-:<#[<|]           ; Isolate first element
-::                ; Add two elements
-<[-]+             ; a_{i+1}  = 1
-<[[-]+]           ; a_{i-1}  = (a_{i} > 0) ? 1 : 0;
-<--               ; a_{i}   -= 2
-[                 ; for (j = a_{i}; j; --j) {
-    [-]>[<+>]<    ;     a_{i}    = a_{i-1}
-    <[<+>]        ;     a_{i-1} += a_{i+1}
-    [-]>[<+>]     ;     a_{i+1}  = a_{i}
+:<#[<|]           ; Isolate first element, x
+::                ; Add two elements, y and z
+<[-]+             ; y = 1
+<[[-]+]           ; z = (x > 0) ? 1 : 0;
+<--               ; x -= 2
+[                 ; for (j = x; j; --j) {
+    [-]>[<+>]<    ;     x = z
+    <[<+>]        ;     z += y
+    [-]>[<+>]     ;     y = x
 ]                 ; }
->||               ; return (a_{i-1})
+>||               ; return z
 ```
 
 ## Tools

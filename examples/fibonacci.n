@@ -1,12 +1,12 @@
 ; fibonacci.n
-:<#[<|]           ; Isolate first element
-::                ; Add two elements
-<[-]+             ; a_{i+1}  = 1
-<[[-]+]           ; a_{i-1}  = (a_{i} > 0) ? 1 : 0;
-<--               ; a_{i}   -= 2
-[                 ; for (j = a_{i}; j; --j) {
-    [-]>[<+>]<    ;     a_{i}    = a_{i-1}
-    <[<+>]        ;     a_{i-1} += a_{i+1}
-    [-]>[<+>]     ;     a_{i+1}  = a_{i}
+:<#[<|]           ; Isolate first element, x
+::                ; Add two elements, y and z
+<[-]+             ; y = 1
+<[[-]+]           ; z = (x > 0) ? 1 : 0;
+<--               ; x -= 2
+[                 ; for (j = x; j; --j) {
+    [-]>[<+>]<    ;     x = z
+    <[<+>]        ;     z += y
+    [-]>[<+>]     ;     y = x
 ]                 ; }
->||               ; return (a_{i-1})
+>||               ; return z
