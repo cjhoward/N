@@ -174,8 +174,7 @@ bin2n <input file> [output file]
 
 The following tables list the fewest possible single-element operations for various numbers:
 
-<details>
-<summary>8-bit (0, 1, 2, 3, ..., 255)</summary>
+### 8-bit (0, 1, 2, 3, ..., 255)
 
 | Dec | Hex  | ASCII | Operations         | Length |
 |:---:|:----:|:-----:|:-------------------|-------:|
@@ -435,8 +434,6 @@ The following tables list the fewest possible single-element operations for vari
 | 253 | 0xFD |       | `+++++[+[+]+]`     |     12 |
 | 254 | 0xFE |       | `+++++[+[+]+]+`    |     13 |
 | 255 | 0xFF |       | `+++[+[+++]-]`     |     12 |
-
-</details>
 
 ## License
 
