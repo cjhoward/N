@@ -36,14 +36,12 @@ void n_interpret(const char* source, element_t** sequence)
 	// Count number of elements in the sequence;
 	size_t element_count = count_elements(head);
 	
-	size_t loop_depth = 0, max_loop_depth, skipped_loops = 0;
-	
 	// Count number of instructions
 	size_t instruction_count = strlen(source);
 	
 	// Count max loop depth
-	loop_depth = 0;
-	max_loop_depth = 0;
+	size_t loop_depth = 0;
+	size_t max_loop_depth = 0;
 	for (const char* c = source; *c; ++c)
 	{
 		if (*c == '[')
@@ -56,6 +54,7 @@ void n_interpret(const char* source, element_t** sequence)
 	loop_depth = 0;
 	bignum_t* loop_counters = calloc(max_loop_depth + 1, sizeof(bignum_t));
 	size_t* loop_headers = malloc((max_loop_depth + 1) * (sizeof(size_t)));
+	size_t skipped_loops = 0;
 	
 	for (size_t ip = 0; ip < instruction_count; ++ip)
 	{
