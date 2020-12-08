@@ -144,6 +144,8 @@ bin2n <input file> [output file]
 
 ## Algorithms
 
+The following table contains common algorithms in ![(**N**)](figures/n.svg):
+
 | Name                        | Input       | Output              | Operations                                          |
 |:----------------------------|:------------|:--------------------|:----------------------------------------------------|
 | x = 0                       | (x, ...)    | (0, ...)            | `[-]`                                               |
