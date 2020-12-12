@@ -1,0 +1,13 @@
+; reverse.n: reverses a sequence
+
+:>#-[                       ; for (i = n; i; --i) {
+    -                       ;     Decrement n
+    [:>[-]<<[>>+<<]<|>><]   ;     Swap n forwards n times
+    [
+        >:>[-]<<[>>+<<]<|>> ;     Swap n backwards to initial position
+        <:>[-]<<[>>+<<]<|>> ;     Swap i-th element backwards to position after n
+        >
+    ]
+    :>[-]<<[>>+<<]<|>>      ;     Swap n and i-th element clone
+    <                       ;     Circular shift i-th element to end of sequence
+]<|                         ; }

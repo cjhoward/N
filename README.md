@@ -51,7 +51,8 @@ This sections contains a few example programs written in ![(**N**)](figures/n.sv
 ### Hello, World! (Unoptimized)
 
 ```.bf
-; hello.n
+; hello.n: outputs the string "Hello, World!"
+
 #[|-]             ; Clear initial sequence
 :::::::::::       ; Add 11 zero elements
 ++[++[+++]]<      ;  72 | H
@@ -72,7 +73,8 @@ This sections contains a few example programs written in ![(**N**)](figures/n.sv
 ### Factorial
 
 ```.bf
-; factorial.n
+; factorial.n: outputs the factorial of the first element
+
 :<#[<|]           ; Isolate first element, x
 :>[-]:+<          ; Add two elements, z = 1, y = 0
 [                 ; for (j = x; j; --j) {
@@ -86,7 +88,8 @@ This sections contains a few example programs written in ![(**N**)](figures/n.sv
 ### Fibonacci Sequence
 
 ```.bf
-; fibonacci.n
+; fibonacci.n: outputs the nth digit of the Fibonacci sequence
+
 :<#[<|]           ; Isolate first element, x
 ::                ; Add two elements, y and z
 <[-]+             ; y = 1

@@ -1,4 +1,5 @@
-; fibonacci.n
+; fibonacci.n: outputs the nth digit of the Fibonacci sequence
+
 :<#[<|]           ; Isolate first element, x
 ::                ; Add two elements, y and z
 <[-]+             ; y = 1

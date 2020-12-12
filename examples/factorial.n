@@ -1,4 +1,5 @@
-; factorial.n
+; factorial.n: outputs the factorial of the first element
+
 :<#[<|]           ; Isolate first element, x
 :>[-]:+<          ; Add two elements, z = 1, y = 0
 [                 ; for (j = x; j; --j) {

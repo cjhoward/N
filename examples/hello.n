@@ -1,4 +1,5 @@
-; hello.n
+; hello.n: outputs the string "Hello, World!"
+
 #[|-]             ; Clear initial sequence
 :::::::::::       ; Add 11 zero elements
 ++[++[+++]]<      ;  72 | H
