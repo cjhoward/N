@@ -1,0 +1,17 @@
+; append-nth.n: appends the nth element to the end of the sequence
+
+:>:[-]+>[<->]<|[<|          ; if (!n) {
+    :                       ;     Append n to end of sequence
+:>]<|                       ; }
+
+:>[[-]+][<|                 ; if (n) {
+    -[:>[-]<<[>>+<<]<|>><]  ;     Swap n forwards to position before nth element
+    <:>>                    ;     Clone nth element
+    [
+        >:>[-]<<[>>+<<]<|>> ;     Swap n backwards to initial position
+        <:>[-]<<[>>+<<]<|>> ;     Swap nth clone backwards to position after n
+        >
+    ]+
+    :>[-]<<[>>+<<]<|>>      ;     Swap n and nth clone
+    <                       ;     Circular shift nth clone to end of sequence
+:>]<|                       ; }
